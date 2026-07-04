@@ -8,7 +8,7 @@
 import UIKit
 
 final class TrackersView: UIView {
-    @AutoLayout private var emptyView = TrackersNoDataView()
+    @AutoLayout private var emptyView = TrackersEmptyView()
     @AutoLayout private var collectionView = TrackersCollectionView()
     
     override init(frame: CGRect) {
@@ -28,7 +28,7 @@ final class TrackersView: UIView {
     
     private func setupSubviews() {
         addSubviews([
-            noDataImageView,
+            emptyView,
             collectionView,
         ])
 
@@ -36,6 +36,6 @@ final class TrackersView: UIView {
     }
     
     private func setupSubviewsConstraints() {
-
+        emptyView.applyConstraints(relativeTo: self)
     }
 }

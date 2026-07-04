@@ -20,11 +20,11 @@ final class TabBarViewController: UITabBarController {
         let statistics = StatisticsFactory.makeViewController()
         
         trackers.tabBarItem = TabBarItemFactory.trackers()
-        trackers.tabBarItem = TabBarItemFactory.statistics()
+        statistics.tabBarItem = TabBarItemFactory.statistics()
         
         viewControllers = [
             trackers,
-            trackers,
+            statistics,
         ]
     }
     

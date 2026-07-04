@@ -8,37 +8,58 @@
 import UIKit
 
 final class TrackersViewController: UIViewController {
-    private var trackers = [Any]()
+    private let searchController = UISearchController(searchResultsController: nil)
+    
+    override func loadView() {
+        view = TrackersView()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupView()
-        configureNavigationBar()
+
+        setupNavigationBar()
+        setupSearchController()
     }
     
     @objc private func didTapAddButton() {
         print(#function)
     }
-    
-    private func setupView() {
-        view = TrackersView()
+}
+
+// MARK: - Implement UISearchResultsUpdating
+extension TrackersViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else {
+            return
+        }
+
+        print(searchText)
     }
 }
 
-// MARK: - NavigationBar
+// MARK: - Setup SearchController
 extension TrackersViewController {
-    private func configureNavigationBar() {
-        configureNavigationBarTitle()
-        configureNavigationBarAddButton()
-        configureNavigationBarDateLabel()
+    private func setupSearchController() {
+        searchController.searchBar.placeholder = "Поиск"
+        searchController.searchResultsUpdater = self
+        
+        navigationItem.searchController = searchController
+    }
+}
+
+// MARK: - Setup NavigationBar
+extension TrackersViewController {
+    private func setupNavigationBar() {
+        setupNavigationBarTitle()
+        setupNavigationBarAddButton()
+        setupNavigationBarDateLabel()
     }
     
-    private func configureNavigationBarTitle() {
+    private func setupNavigationBarTitle() {
         title = "Трекеры"
     }
     
-    private func configureNavigationBarAddButton() {
+    private func setupNavigationBarAddButton() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: .addTracker,
             style: .plain,
@@ -47,7 +68,7 @@ extension TrackersViewController {
         )
     }
     
-    private func configureNavigationBarDateLabel() {
+    private func setupNavigationBarDateLabel() {
         
     }
 }
