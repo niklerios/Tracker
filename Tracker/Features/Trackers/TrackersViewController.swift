@@ -24,6 +24,10 @@ final class TrackersViewController: UIViewController {
     @objc private func didTapAddButton() {
         print(#function)
     }
+    
+    @objc private func didChangeSelectedDate(_ sender: UIDatePicker) {
+        print(sender.date)
+    }
 }
 
 // MARK: - Implement UISearchResultsUpdating
@@ -69,6 +73,19 @@ extension TrackersViewController {
     }
     
     private func setupNavigationBarDateLabel() {
+        let datePicker = UIDatePicker()
         
+        datePicker.preferredDatePickerStyle = .compact
+        datePicker.datePickerMode = .date
+        
+        datePicker.addTarget(
+            self,
+            action: #selector(didChangeSelectedDate),
+            for: .valueChanged
+        )
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            customView: datePicker
+        )
     }
 }
