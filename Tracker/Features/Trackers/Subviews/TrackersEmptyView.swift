@@ -8,9 +8,9 @@
 import UIKit
 
 final class TrackersEmptyView: UIView {
-    private lazy var imageView = createImageView()
-    private lazy var descriptionLabel = createDescriptionLabel("Что будем отслеживать?")
-    private lazy var wrapper = createWrapper()
+    @AutoLayout private var imageView = createImageView()
+    @AutoLayout private var descriptionLabel = createDescriptionLabel()
+    @AutoLayout private var wrapper = createWrapper()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,29 +38,29 @@ final class TrackersEmptyView: UIView {
         addSubview(wrapper)
     }
     
-    private func createWrapper() -> UIStackView {
+    private static func createWrapper() -> UIStackView {
         let stackView = UIStackView()
         
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.spacing = 8
         
-        return stackView.autoLayout()
+        return stackView
     }
     
-    private func createImageView() -> UIImageView {
+    private static func createImageView() -> UIImageView {
         let image: UIImage = .imageError
         let imageView = UIImageView(image: image)
         
-        return imageView.autoLayout()
+        return imageView
     }
     
-    private func createDescriptionLabel(_ text: String) -> UILabel {
+    private static func createDescriptionLabel() -> UILabel {
         let label = UILabel()
         
-        label.text = text
+        label.text = "Что будем отслеживать?"
         label.textColor = .colorBlack
         
-        return label.autoLayout()
+        return label
     }
 }
