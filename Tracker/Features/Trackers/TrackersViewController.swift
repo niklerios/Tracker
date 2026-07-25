@@ -10,6 +10,9 @@ import UIKit
 final class TrackersViewController: UIViewController {
     private let searchController = UISearchController(searchResultsController: nil)
     
+    private var categories: [TrackerCategory] = []
+    private var completedTrackers: [TrackerRecord] = []
+    
     override func loadView() {
         view = TrackersView()
     }
