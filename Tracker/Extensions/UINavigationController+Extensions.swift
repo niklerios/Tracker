@@ -14,11 +14,20 @@ extension UINavigationController {
         self.init(rootViewController: root)
         
         if case .custom = style {
-            let customColor: UIColor = .colorBlack
+            let customTextColor: UIColor = .colorBlack
+            let appearance = UINavigationBarAppearance()
+            
+            appearance.configureWithOpaqueBackground()
+            appearance.largeTitleTextAttributes = [.foregroundColor: customTextColor]
+            appearance.titleTextAttributes = [.foregroundColor: customTextColor]
+            appearance.shadowColor = .clear
             
             navigationBar.prefersLargeTitles = true
-            navigationBar.largeTitleTextAttributes = [.foregroundColor: customColor]
-            navigationBar.tintColor = customColor
+            navigationBar.tintColor = customTextColor
+
+            navigationBar.standardAppearance = appearance
+            navigationBar.scrollEdgeAppearance = appearance
+            navigationBar.compactAppearance = appearance
         }
     }
 }

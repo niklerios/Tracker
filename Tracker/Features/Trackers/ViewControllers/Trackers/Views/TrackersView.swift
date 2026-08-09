@@ -11,8 +11,14 @@ final class TrackersView: UIView {
     @AutoLayout private var emptyResultsView = TrackersEmptyResultsView()
     @AutoLayout private var collectionView = TrackersCollectionView()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(
+        collectionDelegate: UICollectionViewDelegate,
+        collectionDataSource: UICollectionViewDataSource
+    ) {
+        super.init(frame: .zero)
+        
+        collectionView.delegate = collectionDelegate
+        collectionView.dataSource = collectionDataSource
         
         setupView()
         setupSubviews()
@@ -28,10 +34,11 @@ final class TrackersView: UIView {
     
     private func setupSubviews() {
         addSubviews([
-            emptyResultsView,
+//            emptyResultsView,
             collectionView,
         ])
         
-        emptyResultsView.setupConstraints(relativeTo: self)
+        collectionView.setupConstraints(relativeTo: self)
+        // emptyResultsView.setupConstraints(relativeTo: self)
     }
 }
