@@ -7,16 +7,27 @@
 
 import UIKit
 
-final class StatisticsViewController: UIViewController {    
+final class StatisticsViewController: UIViewController {
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        
+        tabBarItem = UITabBarItem(
+            title: "Статистика",
+            image: .statistics,
+            selectedImage: .statistics
+        )
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUI()
     }
-}
-
-// MARK: - UI
-extension StatisticsViewController {
+    
     private func setupUI() {
         view.backgroundColor = .colorWhite
     }

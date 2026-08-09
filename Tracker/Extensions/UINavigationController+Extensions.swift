@@ -8,34 +8,17 @@
 import UIKit
 
 extension UINavigationController {
-    enum Style { case standard }
+    enum Style { case standard, custom }
     
-    convenience init(root: UIViewController) {
+    convenience init(root: UIViewController, withStyle style: Style = .standard) {
         self.init(rootViewController: root)
-    }
-
-    @discardableResult
-    func withStyle(_ style: Style) -> Self {
-        switch style {
-        case .standard:
-            setStandardStyle()
-        }
         
-        return self
-    }
-    
-    private func setStandardStyle() {
-        let mainColor: UIColor = .colorBlack
-
-        // Сделать заголовки большими
-        navigationBar.prefersLargeTitles = true
-
-        // Установить параметры текста для больших заголовков
-        navigationBar.largeTitleTextAttributes = [
-            .foregroundColor: mainColor
-        ]
-
-        // Установить цвет кнопок в navigationBar
-        navigationBar.tintColor = mainColor
+        if case .custom = style {
+            let customColor: UIColor = .colorBlack
+            
+            navigationBar.prefersLargeTitles = true
+            navigationBar.largeTitleTextAttributes = [.foregroundColor: customColor]
+            navigationBar.tintColor = customColor
+        }
     }
 }

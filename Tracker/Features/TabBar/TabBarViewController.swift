@@ -11,37 +11,31 @@ final class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureTabBar()
-        configureViewControllers()
+        setupUI()
+        setupViewControllers()
     }
     
-    private func configureViewControllers() {
-        let trackers = TrackersFactory.makeViewControllerWithNavigation()
-        let statistics = StatisticsFactory.makeViewController()
-        
-        trackers.tabBarItem = TabBarItemFactory.trackers()
-        statistics.tabBarItem = TabBarItemFactory.statistics()
-        
+    private func setupViewControllers() {
         viewControllers = [
-            trackers,
-            statistics,
+            UINavigationController(root: TrackersViewController(), withStyle: .custom),
+            StatisticsViewController(),
         ]
     }
     
-    private func configureTabBar() {
+    private func setupUI() {
         let appearance = UITabBarAppearance()
         let layoutAppearance = appearance.stackedLayoutAppearance
         
         appearance.configureWithOpaqueBackground()
         
-        configureTabBarItemStateAppearance(layoutAppearance.normal, color: .colorGray)
-        configureTabBarItemStateAppearance(layoutAppearance.selected, color: .colorBlue)
+        setupItemStateAppearance(layoutAppearance.normal, color: .colorGray)
+        setupItemStateAppearance(layoutAppearance.selected, color: .colorBlue)
         
         tabBar.standardAppearance = appearance
         tabBar.scrollEdgeAppearance = appearance
     }
     
-    private func configureTabBarItemStateAppearance(
+    private func setupItemStateAppearance(
         _ appearance: UITabBarItemStateAppearance,
         color: UIColor
     ) {

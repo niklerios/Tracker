@@ -8,7 +8,7 @@
 import UIKit
 
 final class TrackersView: UIView {
-    @AutoLayout private var emptyView = TrackersEmptyView()
+    @AutoLayout private var emptyResultsView = TrackersEmptyResultsView()
     @AutoLayout private var collectionView = TrackersCollectionView()
     
     override init(frame: CGRect) {
@@ -28,14 +28,10 @@ final class TrackersView: UIView {
     
     private func setupSubviews() {
         addSubviews([
-            emptyView,
+            emptyResultsView,
             collectionView,
         ])
-
-        setupSubviewsConstraints()
-    }
-    
-    private func setupSubviewsConstraints() {
-        emptyView.applyConstraints(relativeTo: self)
+        
+        emptyResultsView.setupConstraints(relativeTo: self)
     }
 }

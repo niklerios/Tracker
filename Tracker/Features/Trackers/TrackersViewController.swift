@@ -13,6 +13,20 @@ final class TrackersViewController: UIViewController {
     private var categories: [TrackerCategory] = []
     private var completedTrackers: [TrackerRecord] = []
     
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        
+        tabBarItem = UITabBarItem(
+            title: "Трекеры",
+            image: .trackers,
+            selectedImage: .trackers,
+        )
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func loadView() {
         view = TrackersView()
     }
@@ -33,7 +47,8 @@ final class TrackersViewController: UIViewController {
     }
 }
 
-// MARK: - Implement UISearchResultsUpdating
+// MARK: - UISearchResultsUpdating
+
 extension TrackersViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else {
@@ -44,7 +59,8 @@ extension TrackersViewController: UISearchResultsUpdating {
     }
 }
 
-// MARK: - Setup SearchController
+// MARK: - SearchController
+
 extension TrackersViewController {
     private func setupSearchController() {
         searchController.searchBar.placeholder = "Поиск"
@@ -54,28 +70,25 @@ extension TrackersViewController {
     }
 }
 
-// MARK: - Setup NavigationBar
+// MARK: - NavigationBar
+
 extension TrackersViewController {
     private func setupNavigationBar() {
-        setupNavigationBarTitle()
-        setupNavigationBarAddButton()
-        setupNavigationBarDateLabel()
-    }
-    
-    private func setupNavigationBarTitle() {
         title = "Трекеры"
-    }
-    
-    private func setupNavigationBarAddButton() {
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: .addTracker,
             style: .plain,
             target: self,
             action: #selector(didTapAddButton)
         )
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            customView: createDatePicker()
+        )
     }
     
-    private func setupNavigationBarDateLabel() {
+    private func createDatePicker() -> UIDatePicker {
         let datePicker = UIDatePicker()
         
         datePicker.preferredDatePickerStyle = .compact
@@ -87,8 +100,6 @@ extension TrackersViewController {
             for: .valueChanged
         )
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            customView: datePicker
-        )
+        return datePicker
     }
 }

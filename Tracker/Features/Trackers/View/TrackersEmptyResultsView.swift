@@ -1,5 +1,5 @@
 //
-//  TrackersEmptyView.swift
+//  TrackersEmptyResultsView.swift
 //  Tracker
 //
 //  Created by Nikler on 6/27/26.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TrackersEmptyView: UIView {
+final class TrackersEmptyResultsView: UIView {
     @AutoLayout private var imageView = createImageView()
     @AutoLayout private var descriptionLabel = createDescriptionLabel()
     @AutoLayout private var wrapper = createWrapper()
@@ -22,7 +22,7 @@ final class TrackersEmptyView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func applyConstraints(relativeTo parent: UIView) {
+    func setupConstraints(relativeTo parent: UIView) {
         NSLayoutConstraint.activate([
             wrapper.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor),
             wrapper.centerYAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerYAnchor)
@@ -37,7 +37,9 @@ final class TrackersEmptyView: UIView {
         
         addSubview(wrapper)
     }
-    
+}
+
+extension TrackersEmptyResultsView {
     private static func createWrapper() -> UIStackView {
         let stackView = UIStackView()
         
