@@ -17,7 +17,7 @@ let tracker = Tracker(
 
 let testCategories = [
     TrackerCategory(
-        title: "Test Category",
+        title: "Test Category Test Category Test Category Test Category Test Category",
         trackers: [
             tracker,
             tracker,
@@ -165,6 +165,26 @@ extension TrackersViewController: UICollectionViewDataSource {
         
         return cell
     }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
+        guard let header = collectionView.dequeueReusableSupplementaryView(
+            ofKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: TrackersCollectionViewHeader.identifier,
+            for: indexPath
+        ) as? TrackersCollectionViewHeader else {
+            return UICollectionReusableView()
+        }
+        
+        if let category = categories[safe: indexPath.section] {
+            header.title = category.title
+        }
+        
+        return header
+    }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -207,6 +227,40 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
             width: cellWidth,
             height: TrackerCollectionContsants.cellHeight
         )
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        referenceSizeForHeaderInSection section: Int
+    ) -> CGSize {
+        let exampleHeader = TrackersCollectionViewHeader.example
+        let width = collectionView.bounds.width
+
+        // Вычисляю высоту ровно 1 раз ,тк высота хедера всегда одинакова (текст всегда в 1 строку)
+        if (exampleHeader.isFrameSet) {
+            return CGSize(
+                width: width,
+                height: exampleHeader.height
+            )
+        }
+        
+        exampleHeader.frame.size.width = width
+        
+        let targetSize = CGSize(
+            width: width,
+            height: UIView.layoutFittingCompressedSize.height
+        )
+        
+        let estimatedSize = exampleHeader.systemLayoutSizeFitting(
+            targetSize,
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .fittingSizeLevel
+        )
+        
+        exampleHeader.frame.size.height = estimatedSize.height
+        
+        return estimatedSize
     }
 }
 

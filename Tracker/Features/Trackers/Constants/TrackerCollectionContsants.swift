@@ -15,6 +15,13 @@ struct TrackerCollectionContsants {
         right: 16
     )
     
+    static let headerEdgeInsets = UIEdgeInsets(
+        top: 0,
+        left: 28,
+        bottom: 0,
+        right: 28
+    )
+    
     // Вычел 8 пунктов от высоты из Figma (тк добавил их в составе minimumLineSpacing)
     static let cellHeight: CGFloat = 140
     static let cellSpacing: CGFloat = 8

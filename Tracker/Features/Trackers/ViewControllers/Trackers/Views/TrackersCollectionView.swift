@@ -11,10 +11,8 @@ final class TrackersCollectionView: UICollectionView {
     init() {
         super.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         
-        register(
-            TrackersCollectionViewCell.self,
-            forCellWithReuseIdentifier: TrackersCollectionViewCell.identifier
-        )
+        setupView()
+        registerCollectionItems()
     }
     
     required init?(coder: NSCoder) {
@@ -25,8 +23,29 @@ final class TrackersCollectionView: UICollectionView {
         NSLayoutConstraint.activate([
             topAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.topAnchor),
             bottomAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.bottomAnchor),
-            leadingAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.leadingAnchor),
-            trailingAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.trailingAnchor)
+            leadingAnchor.constraint(equalTo: parent.leadingAnchor),
+            trailingAnchor.constraint(equalTo: parent.trailingAnchor)
         ])
+    }
+    
+    private func setupView() {
+        contentInset = UIEdgeInsets(
+            top: 18,
+            left: 0,
+            bottom: 0,
+            right: 0
+        )
+    }
+    
+    private func registerCollectionItems() {
+        register(
+            TrackersCollectionViewCell.self,
+            forCellWithReuseIdentifier: TrackersCollectionViewCell.identifier
+        )
+        register(
+            TrackersCollectionViewHeader.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: TrackersCollectionViewHeader.identifier
+        )
     }
 }

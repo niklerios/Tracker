@@ -8,7 +8,7 @@
 import UIKit
 
 final class TrackersCollectionViewCell: UICollectionViewCell {
-    static let identifier = "TrackersCell"
+    static let identifier = "TrackersCollectionCell"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
