@@ -28,6 +28,10 @@ final class TrackersView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func reloadData() {
+        collectionView.reloadData()
+    }
+    
     private func setupView() {
         backgroundColor = .colorWhite
     }
