@@ -21,9 +21,20 @@ final class TrackersDataManager: NSObject {
     weak var delegate: TrackersCollectionDataManagerDelegate?
     
     func setSelectedDate(_ date: Date) {
+        updateSelectedDate(date)
+        updateCategories()
+    }
+    
+    private func updateSelectedDate(_ date: Date) {
         dataRepository.selectedDate = date
+    }
+    
+    private func updateSearchText(_ text: String) {
+        dataRepository.searchText = text
+    }
+    
+    private func updateCategories() {
         dataRepository.updateVisibleCategories()
-        
         delegate?.visibleCategoriesDidUpdate()
     }
 }
@@ -131,10 +142,8 @@ extension TrackersDataManager: UISearchResultsUpdating {
         else {
             return
         }
-
-        dataRepository.searchText = searchText
-        dataRepository.updateVisibleCategories()
-
-        delegate?.visibleCategoriesDidUpdate()
+        
+        updateSearchText(searchText)
+        updateCategories()
     }
 }
