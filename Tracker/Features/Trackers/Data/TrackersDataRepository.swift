@@ -105,7 +105,7 @@ final class TrackersDataRepository: TrackersDataRepositoryProtocol {
             TrackerCategory(
                 title: category.title,
                 trackers: category.trackers.filter { tracker in
-                    searchText.isEmpty || tracker.title.contains(searchText)
+                    searchText.isEmpty || tracker.title.localizedStandardContains(searchText)
                 }
             )
         }

@@ -39,7 +39,7 @@ struct TrackersDataMock {
             id: UUID(),
             title: "Шпыхать кальянчик",
             color: .colorSelection1,
-            emoji: "🚬",
+            emoji: "💨",
             schedule: [.monday, .wednesday, .friday, .sunday]
         )
         let weekendTracker = Tracker(
