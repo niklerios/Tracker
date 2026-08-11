@@ -1,5 +1,5 @@
 //
-//  TrackersCollectionViewCellViewModel.swift
+//  TrackersCellViewModel.swift
 //  Tracker
 //
 //  Created by Nikler on 8/11/26.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct TrackersCollectionViewCellViewModel {
+struct TrackersCellViewModel {
     let title: String
     let emoji: Character
     let quantityText: String
@@ -20,7 +20,7 @@ struct TrackersCollectionViewCellViewModel {
     }
 }
 
-extension TrackersCollectionViewCellViewModel {
+extension TrackersCellViewModel {
     init(
         tracker: Tracker,
         quantity: Int,

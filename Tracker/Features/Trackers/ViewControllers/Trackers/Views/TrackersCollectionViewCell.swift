@@ -42,7 +42,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         quantityManagementButtonTapHandler = nil
     }
     
-    func configure(viewModel: TrackersCollectionViewCellViewModel) {
+    func configure(viewModel: TrackersCellViewModel) {
         configure(
             quantityText: viewModel.quantityText,
             checked: viewModel.checked

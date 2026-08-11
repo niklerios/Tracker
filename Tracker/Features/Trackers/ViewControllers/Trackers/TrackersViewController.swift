@@ -198,7 +198,7 @@ extension TrackersViewController: UICollectionViewDataSource {
         var quantity = 4
         var checked = false
         
-        let viewModel = TrackersCollectionViewCellViewModel(
+        let viewModel = TrackersCellViewModel(
             tracker: tracker,
             quantity: quantity,
             checked: checked
@@ -207,7 +207,7 @@ extension TrackersViewController: UICollectionViewDataSource {
             quantity = checked ? 5 : 4
             
             cell.configure(
-                quantityText: TrackersCollectionViewCellViewModel.getQuantityText(quantity),
+                quantityText: TrackersCellViewModel.getQuantityText(quantity),
                 checked: checked
             )
         }
