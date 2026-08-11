@@ -48,7 +48,7 @@ final class TrackersCollectionViewHeader: UICollectionReusableView {
     }
     
     private func setupView() {
-        layoutMargins = TrackerCollectionContsants.headerEdgeInsets
+        layoutMargins = TrackersCollectionContsants.headerEdgeInsets
     }
     
     private func setupSubviews() {

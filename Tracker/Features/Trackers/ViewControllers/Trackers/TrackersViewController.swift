@@ -7,32 +7,64 @@
 
 import UIKit
 
-let tracker = Tracker(
+let tracker1 = Tracker(
     id: UUID(),
     title: "Учить iOS и Swift",
-    color: .blue,
+    color: .colorSelection1,
     emoji: "😀",
+    schedule: [.monday, .sunday, .friday]
+)
+
+let tracker2 = Tracker(
+    id: UUID(),
+    title: "Помыть полы",
+    color: .colorSelection2,
+    emoji: "❤️",
+    schedule: [.monday, .sunday, .friday]
+)
+
+let tracker3 = Tracker(
+    id: UUID(),
+    title: "Почитать Objective-C",
+    color: .colorSelection3,
+    emoji: "👌",
+    schedule: [.monday, .sunday, .friday]
+)
+
+let tracker4 = Tracker(
+    id: UUID(),
+    title: "Приготовить поесть",
+    color: .colorSelection4,
+    emoji: "👀",
+    schedule: [.monday, .sunday, .friday]
+)
+
+let tracker5 = Tracker(
+    id: UUID(),
+    title: "Намыть посуду",
+    color: .colorSelection5,
+    emoji: "🙈",
     schedule: [.monday, .sunday, .friday]
 )
 
 let testCategories = [
     TrackerCategory(
-        title: "Test Category Test Category Test Category Test Category Test Category",
+        title: "Test Category",
         trackers: [
-            tracker,
-            tracker,
-            tracker,
-            tracker,
-            tracker,
-            tracker,
-            tracker,
-            tracker,
-            tracker
+            tracker1,
+            tracker2,
+            tracker3,
+            tracker4,
+            tracker5
         ]
     ),
     TrackerCategory(
         title: "Another Category",
-        trackers: [tracker, tracker, tracker]
+        trackers: [
+            tracker1,
+            tracker2,
+            tracker3
+        ]
     )
 ]
 
@@ -156,12 +188,31 @@ extension TrackersViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: TrackersCollectionViewCell.identifier,
-            for: indexPath
-        ) as? TrackersCollectionViewCell else {
+        guard
+            let cell = dequeCellFrom(collectionView, indexPath: indexPath),
+            let tracker = getTrackerBy(indexPath)
+        else {
             return UICollectionViewCell()
         }
+        
+        var quantity = 4
+        var checked = false
+        
+        let viewModel = TrackersCollectionViewCellViewModel(
+            tracker: tracker,
+            quantity: quantity,
+            checked: checked
+        ) {
+            checked.toggle()
+            quantity = checked ? 5 : 4
+            
+            cell.configure(
+                quantityText: TrackersCollectionViewCellViewModel.getQuantityText(quantity),
+                checked: checked
+            )
+        }
+        
+        cell.configure(viewModel: viewModel)
         
         return cell
     }
@@ -171,11 +222,7 @@ extension TrackersViewController: UICollectionViewDataSource {
         viewForSupplementaryElementOfKind kind: String,
         at indexPath: IndexPath
     ) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(
-            ofKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: TrackersCollectionViewHeader.identifier,
-            for: indexPath
-        ) as? TrackersCollectionViewHeader else {
+        guard let header = dequeHeaderFrom(collectionView, indexPath: indexPath) else {
             return UICollectionReusableView()
         }
         
@@ -184,6 +231,31 @@ extension TrackersViewController: UICollectionViewDataSource {
         }
         
         return header
+    }
+    
+    private func dequeHeaderFrom(
+        _ collectionView: UICollectionView,
+        indexPath: IndexPath
+    ) -> TrackersCollectionViewHeader? {
+        collectionView.dequeueReusableSupplementaryView(
+            ofKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: TrackersCollectionViewHeader.identifier,
+            for: indexPath
+        ) as? TrackersCollectionViewHeader
+    }
+    
+    private func dequeCellFrom(
+        _ collectionView: UICollectionView,
+        indexPath: IndexPath
+    ) -> TrackersCollectionViewCell? {
+        collectionView.dequeueReusableCell(
+            withReuseIdentifier: TrackersCollectionViewCell.identifier,
+            for: indexPath
+        ) as? TrackersCollectionViewCell
+    }
+    
+    private func getTrackerBy(_ indexPath: IndexPath) -> Tracker? {
+        categories[safe: indexPath.section]?.trackers[safe: indexPath.row]
     }
 }
 
@@ -195,7 +267,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAt section: Int
     ) -> UIEdgeInsets {
-        TrackerCollectionContsants.edgeInsets
+        TrackersCollectionContsants.edgeInsets
     }
     
     func collectionView(
@@ -203,7 +275,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         minimumInteritemSpacingForSectionAt section: Int
     ) -> CGFloat {
-        TrackerCollectionContsants.cellSpacing
+        TrackersCollectionContsants.cellSpacing
     }
     
     func collectionView(
@@ -211,7 +283,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         minimumLineSpacingForSectionAt section: Int
     ) -> CGFloat {
-        TrackerCollectionContsants.cellSpacing
+        TrackersCollectionContsants.cellSpacing
     }
     
     func collectionView(
@@ -220,12 +292,12 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         let fullWidth = collectionView.bounds.width
-        let widthWithoutPaddings = fullWidth - TrackerCollectionContsants.paddingWidth
-        let cellWidth = widthWithoutPaddings / CGFloat(TrackerCollectionContsants.cellsCount)
+        let widthWithoutPaddings = fullWidth - TrackersCollectionContsants.paddingWidth
+        let cellWidth = widthWithoutPaddings / CGFloat(TrackersCollectionContsants.cellsCount)
         
         return CGSize(
             width: cellWidth,
-            height: TrackerCollectionContsants.cellHeight
+            height: TrackersCollectionContsants.cellHeight
         )
     }
     
