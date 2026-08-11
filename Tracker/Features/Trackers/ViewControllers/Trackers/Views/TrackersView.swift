@@ -22,6 +22,8 @@ final class TrackersView: UIView {
         
         setupView()
         setupSubviews()
+        
+        reloadData()
     }
     
     required init?(coder: NSCoder) {
@@ -30,6 +32,11 @@ final class TrackersView: UIView {
     
     func reloadData() {
         collectionView.reloadData()
+        
+        let isEmpty = collectionView.numberOfSections == 0
+        
+        collectionView.isHidden = isEmpty
+        emptyResultsView.isHidden = !isEmpty
     }
     
     private func setupView() {
@@ -38,11 +45,11 @@ final class TrackersView: UIView {
     
     private func setupSubviews() {
         addSubviews([
-//            emptyResultsView,
+            emptyResultsView,
             collectionView,
         ])
         
         collectionView.setupConstraints(relativeTo: self)
-        // emptyResultsView.setupConstraints(relativeTo: self)
+        emptyResultsView.setupConstraints(relativeTo: self)
     }
 }

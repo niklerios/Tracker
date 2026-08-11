@@ -125,7 +125,10 @@ extension TrackersDataManager: UICollectionViewDataSource {
 
 extension TrackersDataManager: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        guard let searchText = searchController.searchBar.text else {
+        guard
+            let searchText = searchController.searchBar.text,
+            searchText != dataRepository.searchText
+        else {
             return
         }
 
