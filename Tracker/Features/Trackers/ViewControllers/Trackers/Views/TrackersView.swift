@@ -11,6 +11,17 @@ final class TrackersView: UIView {
     @AutoLayout private var emptyResultsView = TrackersEmptyResultsView()
     @AutoLayout private var collectionView = TrackersCollectionView()
     
+    private var collectionIsEmpty: Bool {
+        collectionView.numberOfSections == 0
+    }
+    
+    private var collectionViewIsVisible: Bool = false {
+        didSet {
+            collectionView.isHidden = !collectionViewIsVisible
+            emptyResultsView.isHidden = collectionViewIsVisible
+        }
+    }
+    
     init(
         collectionDelegate: UICollectionViewDelegate,
         collectionDataSource: UICollectionViewDataSource
@@ -23,20 +34,30 @@ final class TrackersView: UIView {
         setupView()
         setupSubviews()
         
-        reloadData()
+        reloadCollectionViewData()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func reloadData() {
+    func insertRowToCollectionView(indexPath: IndexPath, numberOfSections: Int) {
+        if (collectionIsEmpty) {
+            collectionViewIsVisible = true
+        }
+        
+        collectionView.performBatchUpdates {
+            if numberOfSections != collectionView.numberOfSections {
+                collectionView.insertSections(IndexSet(integer: indexPath.section))
+            }
+
+            collectionView.insertItems(at: [indexPath])
+        }
+    }
+    
+    func reloadCollectionViewData() {
         collectionView.reloadData()
-        
-        let isEmpty = collectionView.numberOfSections == 0
-        
-        collectionView.isHidden = isEmpty
-        emptyResultsView.isHidden = !isEmpty
+        collectionViewIsVisible = !collectionIsEmpty
     }
     
     private func setupView() {

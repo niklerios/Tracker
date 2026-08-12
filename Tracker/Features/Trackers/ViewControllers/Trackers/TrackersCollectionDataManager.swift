@@ -9,6 +9,7 @@ import UIKit
 
 protocol TrackersCollectionDataManagerDelegate: AnyObject {
     func visibleCategoriesDidUpdate()
+    func trackerDidAddToVisibleCategory(section: Int, row: Int, numberOfSections: Int)
 }
 
 final class TrackersDataManager: NSObject {
@@ -23,6 +24,16 @@ final class TrackersDataManager: NSObject {
     func setSelectedDate(_ date: Date) {
         updateSelectedDate(date)
         updateCategories()
+    }
+    
+    func createTracker(_ tracker: Tracker, forCategory category: String) {
+        if let (section, row) = dataRepository.add(tracker, toCategory: category) {
+            delegate?.trackerDidAddToVisibleCategory(
+                section: section,
+                row: row,
+                numberOfSections: categories.count
+            )
+        }
     }
     
     private func updateSelectedDate(_ date: Date) {

@@ -40,16 +40,22 @@ final class TrackersViewController: UIViewController {
         super.viewDidLoad()
 
         setupNavigationBar()
-        setupSearchController()
-    }
+        setupSearchController()    }
     
     @objc private func didTapAddButton() {
-        print(#function)
+        let controller = UINavigationController(
+            root: TrackerEditViewController(),
+            withStyle: .customModal
+        )
+
+        present(controller, animated: true)
     }
     
     @objc private func didChangeSelectedDate(_ sender: UIDatePicker) {
+        let selectedDate = DateHelper.startOfDay(sender.date)
+        
         dismiss(animated: false)
-        collectionDataManager.setSelectedDate(DateHelper.startOfDay(sender.date))
+        collectionDataManager.setSelectedDate(selectedDate)
     }
     
     private func setupSearchController() {
@@ -94,7 +100,14 @@ final class TrackersViewController: UIViewController {
 // MARK: - TrackersCollectionDataManagerDelegate
 
 extension TrackersViewController: TrackersCollectionDataManagerDelegate {
+    func trackerDidAddToVisibleCategory(section: Int, row: Int, numberOfSections: Int) {
+        (view as? TrackersView)?.insertRowToCollectionView(
+            indexPath: IndexPath(row: row, section: section),
+            numberOfSections: numberOfSections
+        )
+    }
+    
     func visibleCategoriesDidUpdate() {
-        (view as? TrackersView)?.reloadData()
+        (view as? TrackersView)?.reloadCollectionViewData()
     }
 }

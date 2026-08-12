@@ -77,7 +77,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         
         quantityManagementButton.addTarget(
             self,
-            action: #selector(quantityManagementButtonDidTap),
+            action: #selector(didTapQuantityManagementButton),
             for: .touchUpInside
         )
         
@@ -88,12 +88,22 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         let trackerCardViewMargin: CGFloat = 12
         
         NSLayoutConstraint.activate([
-            wrapper.topAnchor.constraint(equalTo: contentView.topAnchor),
-            wrapper.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            wrapper.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            wrapper.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            wrapper.topAnchor.constraint(
+                equalTo: contentView.topAnchor
+            ),
+            wrapper.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor
+            ),
+            wrapper.leadingAnchor.constraint(
+                equalTo: contentView.leadingAnchor
+            ),
+            wrapper.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor
+            ),
             
-            trackerCardView.heightAnchor.constraint(equalToConstant: 90),
+            trackerCardView.heightAnchor.constraint(
+                equalToConstant: 90
+            ),
 
             trackerCardEmojiView.topAnchor.constraint(
                 equalTo: trackerCardView.topAnchor,
@@ -103,8 +113,12 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
                 equalTo: trackerCardView.leadingAnchor,
                 constant: trackerCardViewMargin
             ),
-            trackerCardEmojiView.heightAnchor.constraint(equalToConstant: 24),
-            trackerCardEmojiView.widthAnchor.constraint(equalToConstant: 24),
+            trackerCardEmojiView.heightAnchor.constraint(
+                equalToConstant: 24
+            ),
+            trackerCardEmojiView.widthAnchor.constraint(
+                equalToConstant: 24
+            ),
             
             trackerCardTitleView.bottomAnchor.constraint(
                 equalTo: trackerCardView.bottomAnchor,
@@ -119,12 +133,16 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
                 constant: -trackerCardViewMargin
             ),
             
-            quantityManagementButton.heightAnchor.constraint(equalToConstant: 34),
-            quantityManagementButton.widthAnchor.constraint(equalToConstant: 34)
+            quantityManagementButton.heightAnchor.constraint(
+                equalToConstant: 34
+            ),
+            quantityManagementButton.widthAnchor.constraint(
+                equalToConstant: 34
+            )
         ])
     }
     
-    @objc private func quantityManagementButtonDidTap() {
+    @objc private func didTapQuantityManagementButton() {
         quantityManagementButtonTapHandler?()
     }
 }

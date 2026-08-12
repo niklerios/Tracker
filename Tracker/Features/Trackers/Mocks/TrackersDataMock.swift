@@ -57,22 +57,23 @@ struct TrackersDataMock {
             schedule: [.monday, .wednesday, .friday, .sunday]
         )
         
-        categories = [
-            TrackerCategory(
-                title: "Обычные дела",
-                trackers: [
-                    everydayTracker,
-                    modayTracker,
-                    evenDaysTracker,
-                    oddDaysTracker,
-                    weekendTracker
-                ]
-            ),
-            TrackerCategory(
-                title: "Спортик",
-                trackers: [gymTracker]
-            )
-        ]
+        let commonCategory = TrackerCategory(
+            title: "Обычные дела",
+            trackers: [
+                everydayTracker,
+                modayTracker,
+                evenDaysTracker,
+                oddDaysTracker,
+                weekendTracker
+            ]
+        )
+        
+        let sportCategory = TrackerCategory(
+            title: "Спортик",
+            trackers: [gymTracker]
+        )
+        
+        categories = [commonCategory, sportCategory]
         
         completedTrackers = [
             TrackerRecord(

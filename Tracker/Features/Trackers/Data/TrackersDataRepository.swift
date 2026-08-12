@@ -18,6 +18,7 @@ protocol TrackersDataRepositoryProtocol {
     func updateVisibleCategories()
     func getTrackerRecordsBy(_ trackerId: UUID) -> Records
     
+    func add(_ tracker: Tracker, toCategory categoryTitle: String) -> (section: Int, row: Int)?
     func add(_ record: TrackerRecord)
     func remove(_ record: TrackerRecord)
 }
@@ -78,6 +79,36 @@ final class TrackersDataRepository: TrackersDataRepositoryProtocol {
         trackerRecordsCache[trackerId] = records
         
         return records
+    }
+    
+    func add(_ tracker: Tracker, toCategory categoryTitle: String) -> (section: Int, row: Int)? {
+        guard
+            let categoryIndex = (categories.firstIndex { $0.title == categoryTitle }),
+            let category = categories[safe: categoryIndex]
+        else {
+            return nil
+        }
+        
+        let updatedCategory = TrackerCategory(
+            title: category.title,
+            trackers: category.trackers + [tracker]
+        )
+        
+        categories[categoryIndex] = updatedCategory
+        // todo - достаточно заморочно обновлять кеши по дням ,решил тут просто чистить их...
+        dateCategoriesCache.removeAll()
+        // ...но обновлять кеш для текущей выборки
+        updateVisibleCategories()
+        
+        if
+            let visibleCategoryIndex = (visibleCategories.firstIndex { $0.title == categoryTitle }),
+            let visibleCategory = visibleCategories[safe: visibleCategoryIndex],
+            let trackerIndex = (visibleCategory.trackers.firstIndex { $0.id == tracker.id })
+        {
+            return (visibleCategoryIndex, trackerIndex)
+        } else {
+            return nil
+        }
     }
     
     func add(_ record: TrackerRecord) {
