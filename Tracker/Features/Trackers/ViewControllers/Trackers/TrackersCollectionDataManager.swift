@@ -68,21 +68,28 @@ extension TrackersDataManager: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        var quantity = 4
-        var checked = false
+        let records = self.dataRepository.getTrackerRecordsBy(tracker.id)
+        let selectedDate = self.dataRepository.selectedDate
+
+        let checked = records.contains { $0.completionDate == selectedDate }
         
         let viewModel = TrackersCellViewModel(
             tracker: tracker,
-            quantity: quantity,
-            checked: checked
-        ) {
-            checked.toggle()
-            quantity = checked ? 5 : 4
+            quantity: records.count,
+            checked: checked,
+            disabled: selectedDate > DateHelper.startOfDay(Date())
+        ) { [weak self] in
+            guard let self else { return }
             
-            cell.configure(
-                quantityText: TrackersCellViewModel.getQuantityText(quantity),
-                checked: checked
-            )
+            let record = TrackerRecord(trackerId: tracker.id, completionDate: selectedDate)
+
+            if (checked) {
+                self.dataRepository.remove(record)
+            } else {
+                self.dataRepository.add(record)
+            }
+
+            collectionView.reloadItems(at: [indexPath])
         }
         
         cell.configure(viewModel: viewModel)

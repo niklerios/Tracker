@@ -9,7 +9,7 @@ import Foundation
 
 struct TrackersDataMock {
     var categories: [TrackerCategory] = []
-    var completedTrackers: [TrackerRecord] = []
+    var completedTrackers: Set<TrackerRecord> = []
     
     static let example = TrackersDataMock()
     
@@ -74,6 +74,31 @@ struct TrackersDataMock {
             )
         ]
         
-        completedTrackers = []
+        completedTrackers = [
+            TrackerRecord(
+                trackerId: everydayTracker.id,
+                completionDate: DateHelper.startOfDay(Date())
+            ),
+            TrackerRecord(
+                trackerId: modayTracker.id,
+                completionDate: DateHelper.startOfDay(Date())
+            ),
+            TrackerRecord(
+                trackerId: evenDaysTracker.id,
+                completionDate: DateHelper.startOfDay(Date())
+            ),
+            TrackerRecord(
+                trackerId: oddDaysTracker.id,
+                completionDate: DateHelper.startOfDay(Date())
+            ),
+            TrackerRecord(
+                trackerId: weekendTracker.id,
+                completionDate: DateHelper.startOfDay(Date())
+            ),
+            TrackerRecord(
+                trackerId: gymTracker.id,
+                completionDate: DateHelper.startOfDay(Date())
+            ),
+        ]
     }
 }

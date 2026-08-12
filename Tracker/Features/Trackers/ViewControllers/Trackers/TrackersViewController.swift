@@ -48,7 +48,8 @@ final class TrackersViewController: UIViewController {
     }
     
     @objc private func didChangeSelectedDate(_ sender: UIDatePicker) {
-        collectionDataManager.setSelectedDate(sender.date)
+        dismiss(animated: false)
+        collectionDataManager.setSelectedDate(DateHelper.startOfDay(sender.date))
     }
     
     private func setupSearchController() {

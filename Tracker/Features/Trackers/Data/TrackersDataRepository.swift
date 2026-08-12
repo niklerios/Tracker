@@ -9,7 +9,7 @@ import Foundation
 
 protocol TrackersDataRepositoryProtocol {
     typealias Categories = [TrackerCategory]
-    typealias Records = [TrackerRecord]
+    typealias Records = Set<TrackerRecord>
 
     var selectedDate: Date { get set }
     var searchText: String { get set }
@@ -17,12 +17,15 @@ protocol TrackersDataRepositoryProtocol {
     
     func updateVisibleCategories()
     func getTrackerRecordsBy(_ trackerId: UUID) -> Records
+    
+    func add(_ record: TrackerRecord)
+    func remove(_ record: TrackerRecord)
 }
 
 final class TrackersDataRepository: TrackersDataRepositoryProtocol {
     // static let shared = TrackersDataRepository()
     
-    // Нчальные данные замоканы
+    // @todo - Для тестирования начальные данные замоканы
     static let shared = TrackersDataRepository(
         categories: TrackersDataMock.example.categories,
         records: TrackersDataMock.example.completedTrackers
@@ -37,7 +40,7 @@ final class TrackersDataRepository: TrackersDataRepositoryProtocol {
     private var trackerRecordsCache: Dictionary<UUID, Records> = [:]
     
     // Public
-    var selectedDate = Date() {
+    var selectedDate = DateHelper.startOfDay(Date()) {
         didSet {
             searchText = ""
         }
@@ -75,6 +78,16 @@ final class TrackersDataRepository: TrackersDataRepositoryProtocol {
         trackerRecordsCache[trackerId] = records
         
         return records
+    }
+    
+    func add(_ record: TrackerRecord) {
+        completedTrackers.insert(record)
+        trackerRecordsCache[record.trackerId]?.insert(record)
+    }
+    
+    func remove(_ record: TrackerRecord) {
+        completedTrackers.remove(record)
+        trackerRecordsCache[record.trackerId]?.remove(record)
     }
     
     private func combineFilters(_ filters: ((Categories) -> Categories)...) -> Categories {

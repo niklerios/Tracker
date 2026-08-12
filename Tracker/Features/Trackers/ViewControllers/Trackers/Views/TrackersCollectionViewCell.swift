@@ -42,29 +42,21 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         quantityManagementButtonTapHandler = nil
     }
     
-    func configure(viewModel: TrackersCellViewModel) {
-        configure(
-            quantityText: viewModel.quantityText,
-            checked: viewModel.checked
-        )
+    func configure(viewModel vm: TrackersCellViewModel) {
+        let buttonImage = vm.checked ? Self.buttonDoneImage : Self.buttonAddImage
+        let buttonOpacity: Float = vm.checked ? 0.3 : 1
 
-        trackerCardTitleView.text = viewModel.title
-        trackerCardEmojiView.text = String(viewModel.emoji)
+        trackerCardTitleView.text = vm.title
+        trackerCardEmojiView.text = String(vm.emoji)
+        trackerCardView.backgroundColor = vm.color
 
-        trackerCardView.backgroundColor = viewModel.color
-        quantityManagementButton.tintColor = viewModel.color
-        
-        quantityManagementButtonTapHandler = viewModel.tapHandler
-    }
-    
-    func configure(quantityText: String, checked: Bool) {
-        let buttonImage = checked ? Self.buttonDoneImage : Self.buttonAddImage
-        let buttonOpacity: Float = checked ? 0.3 : 1
-
-        quantityManagementTitleView.text = quantityText
-
+        quantityManagementTitleView.text = vm.quantityText
         quantityManagementButton.layer.opacity = buttonOpacity
         quantityManagementButton.setImage(buttonImage, for: .normal)
+        quantityManagementButton.tintColor = vm.color
+        quantityManagementButton.isEnabled = !vm.disabled
+        
+        quantityManagementButtonTapHandler = vm.tapHandler
     }
     
     private func setupSubviews() {
