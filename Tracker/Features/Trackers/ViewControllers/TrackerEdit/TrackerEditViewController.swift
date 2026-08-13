@@ -27,4 +27,17 @@ extension TrackerEditViewController: TrackerEditViewDelegate {
     func didTapCancelButton() {
         dismiss(animated: true)
     }
+    
+    func didTapSelectCategory() {
+        // todo - обработка в другом спринте
+        print("Select Category")
+    }
+    
+    func didTapSetupSchedule() {
+        print("Setup Schedule")
+    }
+    
+    func titleEditingChanged(_ text: String?) {
+        print(text ?? "")
+    }
 }

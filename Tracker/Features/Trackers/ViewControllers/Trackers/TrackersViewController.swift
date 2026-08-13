@@ -61,9 +61,6 @@ final class TrackersViewController: UIViewController {
     private func setupSearchController() {
         searchController.searchBar.placeholder = "Поиск"
         searchController.searchResultsUpdater = collectionDataManager
-        
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     private func setupNavigationBar() {
@@ -79,6 +76,9 @@ final class TrackersViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             customView: createDatePicker()
         )
+        
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     private func createDatePicker() -> UIDatePicker {

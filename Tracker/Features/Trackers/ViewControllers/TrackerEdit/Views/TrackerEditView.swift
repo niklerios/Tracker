@@ -10,12 +10,28 @@ import UIKit
 protocol TrackerEditViewDelegate: AnyObject {
     func didTapSaveButton()
     func didTapCancelButton()
+    func didTapSelectCategory()
+    func didTapSetupSchedule()
+    func titleEditingChanged(_ text: String?)
 }
 
 final class TrackerEditView: UIView {
     @AutoLayout private var buttonsStack = createButtonsStack()
     @AutoLayout private var cancelButton = createCancelButton()
     @AutoLayout private var saveButton = createSaveButton()
+    
+    @AutoLayout private var settingsListMainSection = TrackerSettingsList()
+    @AutoLayout private var settingsItemSetupTitle = TrackerSettingsItemTextField(
+        placeholder: "Введите название трекера"
+    )
+    
+    @AutoLayout private var settingsListSecondarySection = TrackerSettingsList()
+    @AutoLayout private var settingsItemSelectCategory = TrackerSettingsItemLink(
+        title: "Категория"
+    )
+    @AutoLayout private var settingsItemSetupSchedule = TrackerSettingsItemLink(
+        title: "Расписание"
+    )
     
     weak var delegate: TrackerEditViewDelegate?
     
@@ -38,12 +54,23 @@ final class TrackerEditView: UIView {
     }
     
     private func setupSubviews() {
+        settingsListMainSection.addItems([
+            settingsItemSetupTitle
+        ])
+        
+        settingsListSecondarySection.addItems([
+            settingsItemSelectCategory,
+            settingsItemSetupSchedule
+        ])
+        
         buttonsStack.addArrangedSubviews([
             cancelButton,
             saveButton
         ])
         
         addSubviews([
+            settingsListMainSection,
+            settingsListSecondarySection,
             buttonsStack
         ])
         
@@ -58,10 +85,44 @@ final class TrackerEditView: UIView {
             action: #selector(didTapSaveButton),
             for: .touchUpInside
         )
+        
+        settingsItemSelectCategory.didTapHandler = { [weak self] in
+            self?.delegate?.didTapSelectCategory()
+        }
+        settingsItemSetupSchedule.didTapHandler = { [weak self] in
+            self?.delegate?.didTapSetupSchedule()
+        }
+        settingsItemSetupTitle.editingChangedHandler = { [weak self] in
+            self?.delegate?.titleEditingChanged($0)
+        }
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            settingsListMainSection.topAnchor.constraint(
+                equalTo: safeAreaLayoutGuide.topAnchor,
+                constant: 24
+            ),
+            settingsListMainSection.leadingAnchor.constraint(
+                equalTo: leadingAnchor,
+                constant: 16
+            ),
+            settingsListMainSection.trailingAnchor.constraint(
+                equalTo: trailingAnchor,
+                constant: -16
+            ),
+            
+            settingsListSecondarySection.topAnchor.constraint(
+                equalTo: settingsListMainSection.bottomAnchor,
+                constant: 24
+            ),
+            settingsListSecondarySection.leadingAnchor.constraint(
+                equalTo: settingsListMainSection.leadingAnchor
+            ),
+            settingsListSecondarySection.trailingAnchor.constraint(
+                equalTo: settingsListMainSection.trailingAnchor
+            ),
+            
             buttonsStack.bottomAnchor.constraint(
                 equalTo: safeAreaLayoutGuide.bottomAnchor
             ),
