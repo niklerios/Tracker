@@ -16,9 +16,15 @@ protocol TrackerEditViewDelegate: AnyObject {
 }
 
 final class TrackerEditView: UIView {
-    @AutoLayout private var buttonsStack = createButtonsStack()
-    @AutoLayout private var cancelButton = createCancelButton()
-    @AutoLayout private var saveButton = createSaveButton()
+    @AutoLayout private var buttonsPanel = TrackerSettingsButtonsPanel()
+    @AutoLayout private var cancelButton = TrackerSettingsButton(
+        style: .outline,
+        title: "Отменить"
+    )
+    @AutoLayout private var saveButton = TrackerSettingsButton(
+        style: .fill,
+        title: "Создать"
+    )
     
     @AutoLayout private var settingsListMainSection = TrackerSettingsList()
     @AutoLayout private var settingsItemSetupTitle = TrackerSettingsItemTextField(
@@ -63,7 +69,7 @@ final class TrackerEditView: UIView {
             settingsItemSetupSchedule
         ])
         
-        buttonsStack.addArrangedSubviews([
+        buttonsPanel.addButtons([
             cancelButton,
             saveButton
         ])
@@ -71,21 +77,15 @@ final class TrackerEditView: UIView {
         addSubviews([
             settingsListMainSection,
             settingsListSecondarySection,
-            buttonsStack
+            buttonsPanel
         ])
         
-        cancelButton.addTarget(
-            self,
-            action: #selector(didTapCancelButton),
-            for: .touchUpInside
-        )
-        
-        saveButton.addTarget(
-            self,
-            action: #selector(didTapSaveButton),
-            for: .touchUpInside
-        )
-        
+        cancelButton.didTapHandler = { [weak self] in
+            self?.delegate?.didTapCancelButton()
+        }
+        saveButton.didTapHandler = { [weak self] in
+            self?.delegate?.didTapSaveButton()
+        }
         settingsItemSelectCategory.didTapHandler = { [weak self] in
             self?.delegate?.didTapSelectCategory()
         }
@@ -123,59 +123,15 @@ final class TrackerEditView: UIView {
                 equalTo: settingsListMainSection.trailingAnchor
             ),
             
-            buttonsStack.bottomAnchor.constraint(
+            buttonsPanel.bottomAnchor.constraint(
                 equalTo: safeAreaLayoutGuide.bottomAnchor
             ),
-            buttonsStack.leadingAnchor.constraint(
+            buttonsPanel.leadingAnchor.constraint(
                 equalTo: leadingAnchor
             ),
-            buttonsStack.trailingAnchor.constraint(
+            buttonsPanel.trailingAnchor.constraint(
                 equalTo: trailingAnchor
-            ),
-
-            cancelButton.heightAnchor.constraint(
-                equalToConstant: UIButton.customHeight
-            ),
-            saveButton.heightAnchor.constraint(
-                equalToConstant: UIButton.customHeight
             )
         ])
-    }
-    
-    @objc private func didTapSaveButton() {
-        delegate?.didTapSaveButton()
-    }
-    
-    @objc private func didTapCancelButton() {
-        delegate?.didTapCancelButton()
-    }
-}
-
-extension TrackerEditView {
-    private static func createButtonsStack() -> UIStackView {
-        let stack = UIStackView()
-
-        stack.layoutMargins = UIEdgeInsets(top: 16, left: 20, bottom: 16, right: 20)
-        stack.isLayoutMarginsRelativeArrangement = true
-        stack.spacing = 8
-        stack.distribution = .fillEqually
-        
-        return stack
-    }
-    
-    private static func createCancelButton() -> UIButton {
-        let button = UIButton(withStyle: .customOutline)
-        
-        button.setTitle("Отменить", for: .normal)
-        
-        return button
-    }
-    
-    private static func createSaveButton() -> UIButton {
-        let button = UIButton(withStyle: .customFill)
-        
-        button.setTitle("Создать", for: .normal)
-        
-        return button
     }
 }
