@@ -57,6 +57,8 @@ final class TrackersDataRepository: TrackersDataRepositoryProtocol {
             self.categories = [defaultCategory]
             self.completedTrackers = []
         }
+        
+        updateVisibleCategories()
     }
     
     func updateVisibleCategories() {
