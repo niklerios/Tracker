@@ -24,13 +24,7 @@ protocol TrackersDataRepositoryProtocol {
 }
 
 final class TrackersDataRepository: TrackersDataRepositoryProtocol {
-    // static let shared = TrackersDataRepository()
-    
-    // @todo - Для тестирования начальные данные замоканы
-    static let shared = TrackersDataRepository(
-        categories: TrackersDataMock.example.categories,
-        records: TrackersDataMock.example.completedTrackers
-    )
+    static let shared = TrackersDataRepository(withMock: false)
     
     // Source data
     private var categories: Categories
@@ -50,15 +44,19 @@ final class TrackersDataRepository: TrackersDataRepositoryProtocol {
     
     private(set) var visibleCategories: Categories = []
     
-    convenience init() {
-        self.init(categories: [], records: [])
-    }
-    
-    init(categories: Categories, records: Records) {
-        self.categories = categories
-        self.completedTrackers = records
+    private init(withMock: Bool = false) {
+        let defaultCategory = TrackerCategory(
+            title: TrackersDataMock.defaultCategory,
+            trackers: []
+        )
         
-        updateVisibleCategories()
+        if (withMock) {
+            self.categories = TrackersDataMock.example.categories
+            self.completedTrackers = TrackersDataMock.example.completedTrackers
+        } else {
+            self.categories = [defaultCategory]
+            self.completedTrackers = []
+        }
     }
     
     func updateVisibleCategories() {
