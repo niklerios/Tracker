@@ -21,11 +21,15 @@ final class TrackerEditViewController: UIViewController {
     private var trackerCategory = TrackersDataMock.defaultCategory {
         didSet { validateSettings() }
     }
-    private var trackerSchedule: [Weekday] = Weekday.allCases {
+    private var trackerSchedule: [Weekday] = [] {
         didSet { validateSettings() }
     }
     
     private var didSaveTrackerHandler: DidSaveTrackerHandler?
+    
+    private var customView: TrackerEditView? {
+        view as? TrackerEditView
+    }
     
     init(tracker: Tracker?, onSaveTracker: @escaping DidSaveTrackerHandler) {
         super.init(nibName: nil, bundle: nil)
@@ -64,11 +68,15 @@ final class TrackerEditViewController: UIViewController {
     }
     
     private func updateSelectCategorySubtitle() {
-        (view as? TrackerEditView)?.selectCategorySubtitle = trackerCategory
+        customView?.selectCategorySubtitle = trackerCategory
     }
     
     private func updateSetupScheduleSubtitle() {
-        (view as? TrackerEditView)?.setupScheduleSubtitle = "Пн, Вт, Ср"
+        let text = trackerSchedule == Weekday.allCases
+            ? "Каждый день"
+            : Weekday.weekdaysListToShortText(trackerSchedule)
+
+        customView?.setupScheduleSubtitle = text
     }
     
     private func validateSettings() {
