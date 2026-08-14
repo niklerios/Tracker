@@ -12,6 +12,7 @@ struct TrackersDataMock {
     var completedTrackers: Set<TrackerRecord> = []
     
     static let example = TrackersDataMock()
+    static let defaultCategory = "Обычные дела"
     
     init() {
         let everydayTracker = Tracker(
@@ -58,7 +59,7 @@ struct TrackersDataMock {
         )
         
         let commonCategory = TrackerCategory(
-            title: "Обычные дела",
+            title: Self.defaultCategory,
             trackers: [
                 everydayTracker,
                 modayTracker,

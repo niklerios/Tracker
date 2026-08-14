@@ -23,9 +23,10 @@ final class TrackerSettingsButton: UIButton {
         titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         
         if case .fill = style {
-            backgroundColor = .colorBlack
-
             setTitleColor(.colorWhite, for: .normal)
+
+            setBackgroundColor(.colorGray, for: .disabled)
+            setBackgroundColor(.colorBlack, for: .normal)
         }
         
         if case .outline = style {

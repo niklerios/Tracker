@@ -43,12 +43,16 @@ final class TrackersViewController: UIViewController {
         setupSearchController()    }
     
     @objc private func didTapAddButton() {
-        let controller = UINavigationController(
-            root: TrackerEditViewController(),
+        let trackerEditController = TrackerEditViewController(tracker: nil) { [weak self] in
+            self?.collectionDataManager.createTracker($0, forCategory: $1)
+        }
+
+        let navigationController = UINavigationController(
+            root: trackerEditController,
             withStyle: .customModal
         )
 
-        present(controller, animated: true)
+        present(navigationController, animated: true)
     }
     
     @objc private func didChangeSelectedDate(_ sender: UIDatePicker) {

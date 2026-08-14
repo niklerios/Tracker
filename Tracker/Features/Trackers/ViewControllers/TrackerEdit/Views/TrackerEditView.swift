@@ -39,6 +39,18 @@ final class TrackerEditView: UIView {
         title: "Расписание"
     )
     
+    var selectCategorySubtitle = "" {
+        didSet {
+            settingsItemSelectCategory.subtitle = selectCategorySubtitle
+        }
+    }
+    
+    var setupScheduleSubtitle = "" {
+        didSet {
+            settingsItemSetupSchedule.subtitle = setupScheduleSubtitle
+        }
+    }
+    
     weak var delegate: TrackerEditViewDelegate?
     
     init(delegate: TrackerEditViewDelegate) {
@@ -53,6 +65,10 @@ final class TrackerEditView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setSaveButtonIsEnabled(_ isEnabled: Bool) {
+        saveButton.isEnabled = isEnabled
     }
     
     private func setupView() {
