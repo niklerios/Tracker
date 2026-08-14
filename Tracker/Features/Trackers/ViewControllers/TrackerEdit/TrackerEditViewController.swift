@@ -22,7 +22,10 @@ final class TrackerEditViewController: UIViewController {
         didSet { validateSettings() }
     }
     private var trackerSchedule: [Weekday] = [] {
-        didSet { validateSettings() }
+        didSet {
+            validateSettings()
+            updateSetupScheduleSubtitle()
+        }
     }
     
     private var didSaveTrackerHandler: DidSaveTrackerHandler?
@@ -72,7 +75,7 @@ final class TrackerEditViewController: UIViewController {
     }
     
     private func updateSetupScheduleSubtitle() {
-        let text = trackerSchedule == Weekday.allCases
+        let text = trackerSchedule.count == Weekday.allCases.count
             ? "Каждый день"
             : Weekday.weekdaysListToShortText(trackerSchedule)
 
@@ -80,10 +83,6 @@ final class TrackerEditViewController: UIViewController {
     }
     
     private func validateSettings() {
-        guard let view = view as? TrackerEditView else {
-            return
-        }
-        
         let validations = [
             !trackerTitle.isEmpty,
             !trackerSchedule.isEmpty,
@@ -91,7 +90,7 @@ final class TrackerEditViewController: UIViewController {
         ]
         let isValid = validations.reduce(true) { $0 && $1 }
         
-        view.setSaveButtonIsEnabled(isValid)
+        customView?.setSaveButtonIsEnabled(isValid)
     }
 }
 
@@ -125,7 +124,13 @@ extension TrackerEditViewController: TrackerEditViewDelegate {
     }
     
     func didTapSetupSchedule() {
-        print("Setup Schedule")
+        let scheduleSetupViewController = TrackerScheduleSetupViewController(
+            schedule: trackerSchedule
+        ) { [weak self] updatedSchedule in
+            self?.trackerSchedule = updatedSchedule
+        }
+
+        navigationController?.pushViewController(scheduleSetupViewController, animated: true)
     }
     
     func titleEditingChanged(_ text: String?) {
