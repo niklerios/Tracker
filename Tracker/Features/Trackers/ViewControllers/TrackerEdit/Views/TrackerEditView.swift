@@ -16,28 +16,32 @@ protocol TrackerEditViewDelegate: AnyObject {
 }
 
 final class TrackerEditView: UIView {
-    @AutoLayout private var buttonsPanel = TrackerSettingsButtonsPanel()
-    @AutoLayout private var cancelButton = TrackerSettingsButton(
+    // MARK: - UI Elements
+    
+    @UsesAutoLayout private var buttonsPanel = TrackerSettingsButtonsPanel()
+    @UsesAutoLayout private var cancelButton = TrackerSettingsButton(
         style: .outline,
         title: "Отменить"
     )
-    @AutoLayout private var saveButton = TrackerSettingsButton(
+    @UsesAutoLayout private var saveButton = TrackerSettingsButton(
         style: .fill,
         title: "Создать"
     )
     
-    @AutoLayout private var settingsListMainSection = TrackerSettingsList()
-    @AutoLayout private var settingsItemSetupTitle = TrackerSettingsItemTextField(
+    @UsesAutoLayout private var settingsListMainSection = TrackerSettingsList()
+    @UsesAutoLayout private var settingsItemSetupTitle = TrackerSettingsItemTextField(
         placeholder: "Введите название трекера"
     )
     
-    @AutoLayout private var settingsListSecondarySection = TrackerSettingsList()
-    @AutoLayout private var settingsItemSelectCategory = TrackerSettingsItemLink(
+    @UsesAutoLayout private var settingsListSecondarySection = TrackerSettingsList()
+    @UsesAutoLayout private var settingsItemSelectCategory = TrackerSettingsItemLink(
         title: "Категория"
     )
-    @AutoLayout private var settingsItemSetupSchedule = TrackerSettingsItemLink(
+    @UsesAutoLayout private var settingsItemSetupSchedule = TrackerSettingsItemLink(
         title: "Расписание"
     )
+    
+    // MARK: - Public Properties
     
     var selectCategorySubtitle = "" {
         didSet {
@@ -53,6 +57,8 @@ final class TrackerEditView: UIView {
     
     weak var delegate: TrackerEditViewDelegate?
     
+    // MARK: - Initialization
+    
     init(delegate: TrackerEditViewDelegate) {
         super.init(frame: .zero)
         
@@ -67,9 +73,13 @@ final class TrackerEditView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Public Methods
+    
     func setSaveButtonIsEnabled(_ isEnabled: Bool) {
         saveButton.isEnabled = isEnabled
     }
+    
+    // MARK: - Setup
     
     private func setupView() {
         backgroundColor = .colorWhite

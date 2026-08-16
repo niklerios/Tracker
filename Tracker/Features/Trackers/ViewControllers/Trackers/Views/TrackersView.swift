@@ -8,8 +8,8 @@
 import UIKit
 
 final class TrackersView: UIView {
-    @AutoLayout private var emptyResultsView = TrackersEmptyResultsView()
-    @AutoLayout private var collectionView = TrackersCollectionView()
+    @UsesAutoLayout private var emptyResultsView = TrackersEmptyResultsView()
+    @UsesAutoLayout private var collectionView = TrackersCollectionView()
     
     private var collectionIsEmpty: Bool {
         collectionView.numberOfSections == 0

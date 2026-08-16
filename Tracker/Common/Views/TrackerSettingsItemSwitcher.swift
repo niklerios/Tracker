@@ -8,9 +8,13 @@
 import UIKit
 
 final class TrackerSettingsItemSwitcher: UIView, TrackerSettingsItem {
-    @AutoLayout private var horizontalStack = createHorizontalStack()
-    @AutoLayout private var titleLabel = createTitleLabel()
-    @AutoLayout private var switcher = createSwitcher()
+    // MARK: - UI Elements
+
+    @UsesAutoLayout private var horizontalStack = createHorizontalStack()
+    @UsesAutoLayout private var titleLabel = createTitleLabel()
+    @UsesAutoLayout private var switcher = createSwitcher()
+    
+    // MARK: - Public properties
     
     var isOn = false {
         didSet {
@@ -25,6 +29,8 @@ final class TrackerSettingsItemSwitcher: UIView, TrackerSettingsItem {
     }
     
     var didSwitchToggleHandler: ((_ isOn: Bool) -> Void)?
+    
+    // MARK: - Initialization
 
     init(title: String) {
         super.init(frame: .zero)
@@ -40,6 +46,8 @@ final class TrackerSettingsItemSwitcher: UIView, TrackerSettingsItem {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Setup
     
     private func setupSubviews() {
         horizontalStack.addArrangedSubviews([
@@ -73,12 +81,16 @@ final class TrackerSettingsItemSwitcher: UIView, TrackerSettingsItem {
         ])
     }
     
+    // MARK: - Actions
+    
     @objc private func didSwitchToggle(_ sender: UISwitch) {
         didSwitchToggleHandler?(sender.isOn)
     }
 }
 
 extension TrackerSettingsItemSwitcher {
+    // MARK: - UI Factory Methods
+
     private static func createTitleLabel() -> UILabel {
         let label = UILabel()
 

@@ -1,18 +1,14 @@
 //
-//  EmojisHelper.swift
+//  EmojiConstants.swift
 //  Tracker
 //
-//  Created by Nikler on 8/14/26.
+//  Created by Nikler on 8/16/26.
 //
 
-struct EmojisHelper {
+struct EmojiConstants {
     static let emojis: [Character] = [
         "🙂", "😻", "🌺", "🐶", "❤️", "😱",
         "😇", "😡", "🥶", "🤔", "🙌", "🍔",
         "🥦", "🏓", "🥇", "🎸", "🏝", "😪"
     ]
-    
-    static var randomEmoji: Character {
-        emojis[Int.random(in: (0..<emojis.count))]
-    }
 }

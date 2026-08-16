@@ -8,15 +8,19 @@
 import UIKit
 
 final class TrackerSettingsItemLink: UIView, TrackerSettingsItem {
-    @AutoLayout private var wrapper = UIButton(type: .custom)
+    // MARK: - UI Elements
     
-    @AutoLayout private var verticalStack = createVerticalStack()
-    @AutoLayout private var horizontalStack = createHorizontalStack()
+    @UsesAutoLayout private var wrapper = UIButton(type: .custom)
     
-    @AutoLayout private var titleLabel = createTitleLabel()
-    @AutoLayout private var subtitleLabel = createSubtitleLabel()
+    @UsesAutoLayout private var verticalStack = createVerticalStack()
+    @UsesAutoLayout private var horizontalStack = createHorizontalStack()
     
-    @AutoLayout private var chevronRightIcon = UIImageView(image: .chevronRight)
+    @UsesAutoLayout private var titleLabel = createTitleLabel()
+    @UsesAutoLayout private var subtitleLabel = createSubtitleLabel()
+    
+    @UsesAutoLayout private var chevronRightIcon = UIImageView(image: .chevronRight)
+    
+    // MARK: - Public properties
     
     var title = "" {
         didSet {
@@ -32,6 +36,8 @@ final class TrackerSettingsItemLink: UIView, TrackerSettingsItem {
     }
     
     var didTapHandler: (() -> Void)?
+    
+    // MARK: - Initialization
     
     convenience init(title: String, subtitle: String = "") {
         self.init(frame: .zero)
@@ -52,6 +58,8 @@ final class TrackerSettingsItemLink: UIView, TrackerSettingsItem {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Setup
     
     private func setupSubviews() {
         verticalStack.addArrangedSubviews([
@@ -113,12 +121,16 @@ final class TrackerSettingsItemLink: UIView, TrackerSettingsItem {
         ])
     }
     
+    // MARK: - Actions
+    
     @objc private func didTap() {
         didTapHandler?()
     }
 }
 
 extension TrackerSettingsItemLink {
+    // MARK: - UI Factory Methods
+
     private static func createVerticalStack() -> UIStackView {
         let stack = UIStackView()
         

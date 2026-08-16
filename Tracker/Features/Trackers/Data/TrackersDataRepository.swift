@@ -24,7 +24,7 @@ protocol TrackersDataRepositoryProtocol {
 }
 
 final class TrackersDataRepository: TrackersDataRepositoryProtocol {
-    static let shared = TrackersDataRepository(withMock: false)
+    static let shared = TrackersDataRepository(withMock: true)
     
     // Source data
     private var categories: Categories

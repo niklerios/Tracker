@@ -15,6 +15,10 @@ struct TrackersCellViewModel {
     let disabled: Bool
     let color: UIColor
     let tapHandler: () -> Void
+    
+    static func quantityText(from quantity: Int) -> String {
+        DateHelper.getDaysText(days: quantity) ?? ""
+    }
 }
 
 extension TrackersCellViewModel {
@@ -28,7 +32,7 @@ extension TrackersCellViewModel {
         self.init(
             title: tracker.title,
             emoji: tracker.emoji,
-            quantityText: DateHelper.getDaysText(days: quantity) ?? "",
+            quantityText: Self.quantityText(from: quantity),
             checked: checked,
             disabled: disabled,
             color: tracker.color,

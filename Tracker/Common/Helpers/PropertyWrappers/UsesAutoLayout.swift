@@ -1,5 +1,5 @@
 //
-//  AutoLayout.swift
+//  UsesAutoLayout.swift
 //  Tracker
 //
 //  Created by Nikler on 6/26/26.
@@ -8,7 +8,7 @@
 import UIKit
 
 @propertyWrapper
-struct AutoLayout<T> {
+struct UsesAutoLayout<T> {
     var wrappedValue: T
     
     init(wrappedValue: T) where T: UIView {

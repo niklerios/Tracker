@@ -10,20 +10,28 @@ import UIKit
 final class TrackersCollectionViewCell: UICollectionViewCell {
     static let identifier = "TrackersCollectionCell"
     
-    @AutoLayout private var wrapper = createWrapper()
+    // MARK: - UI Elements
     
-    @AutoLayout private var trackerCardView = createTrackerCardView()
-    @AutoLayout private var trackerCardTitleView = createTrackerCardTitleView()
-    @AutoLayout private var trackerCardEmojiView = createTrackerCardEmojiView()
+    @UsesAutoLayout private var wrapper = createWrapper()
     
-    @AutoLayout private var quantityManagementView = createQuantityManagementView()
-    @AutoLayout private var quantityManagementTitleView = createQuantityManagementTitleView()
-    @AutoLayout private var quantityManagementButton = createQuantityManagementButton()
+    @UsesAutoLayout private var trackerCardView = createTrackerCardView()
+    @UsesAutoLayout private var trackerCardTitleView = createTrackerCardTitleView()
+    @UsesAutoLayout private var trackerCardEmojiView = createTrackerCardEmojiView()
+    
+    @UsesAutoLayout private var quantityManagementView = createQuantityManagementView()
+    @UsesAutoLayout private var quantityManagementTitleView = createQuantityManagementTitleView()
+    @UsesAutoLayout private var quantityManagementButton = createQuantityManagementButton()
+    
+    // MARK: - Static Properties
     
     private static let buttonAddImage: UIImage = .buttonPlus.withRenderingMode(.alwaysTemplate)
     private static let buttonDoneImage: UIImage = .buttonDone.withRenderingMode(.alwaysTemplate)
     
+    // MARK: - Public Properties
+    
     private var quantityManagementButtonTapHandler: (() -> Void)?
+    
+    // MARK: - Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,22 +50,52 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         quantityManagementButtonTapHandler = nil
     }
     
+    // MARK: - Public Methods
+    
     func configure(viewModel vm: TrackersCellViewModel) {
-        let buttonImage = vm.checked ? Self.buttonDoneImage : Self.buttonAddImage
-        let buttonOpacity: Float = vm.checked ? 0.3 : 1
-
+        setupTrackerCardView(viewModel: vm)
+        setupQuantityManagmentView(viewModel: vm)
+    }
+    
+    func updateCompletion(checked: Bool, quantityText: String) {
+        updateQuantityManagmentView(
+            checked: checked,
+            quantityText: quantityText
+        )
+    }
+    
+    // MARK: - Private methods
+    
+    private func setupTrackerCardView(viewModel vm: TrackersCellViewModel) {
         trackerCardTitleView.text = vm.title
         trackerCardEmojiView.text = String(vm.emoji)
         trackerCardView.backgroundColor = vm.color
-
+    }
+    
+    private func setupQuantityManagmentView(viewModel vm: TrackersCellViewModel) {
         quantityManagementTitleView.text = vm.quantityText
-        quantityManagementButton.layer.opacity = buttonOpacity
-        quantityManagementButton.setImage(buttonImage, for: .normal)
+
         quantityManagementButton.tintColor = vm.color
         quantityManagementButton.isEnabled = !vm.disabled
         
+        updateQuantityManagmentView(
+            checked: vm.checked,
+            quantityText: vm.quantityText
+        )
+
         quantityManagementButtonTapHandler = vm.tapHandler
     }
+    
+    private func updateQuantityManagmentView(checked: Bool, quantityText: String) {
+        let buttonImage = checked ? Self.buttonDoneImage : Self.buttonAddImage
+        
+        quantityManagementButton.setImage(buttonImage, for: .normal)
+        quantityManagementButton.layer.opacity = checked ? 0.3 : 1
+        
+        quantityManagementTitleView.text = quantityText
+    }
+    
+    // MARK: - Setup
     
     private func setupSubviews() {
         trackerCardView.addSubviews([
@@ -147,7 +185,11 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     }
 }
 
+// MARK: - Extension
+
 extension TrackersCollectionViewCell {
+    // MARK: - UI Factory Methods
+
     static func createWrapper() -> UIStackView {
         let stack = UIStackView()
         

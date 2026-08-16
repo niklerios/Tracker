@@ -10,10 +10,16 @@ import UIKit
 final class TrackersCollectionViewHeader: UICollectionReusableView {
     static let identifier = "TrackersCollectionHeader"
     
+    // MARK: - Static Properies
+    
     // Example для динамического рассчета высоты
     static let example = createExample()
     
-    @AutoLayout private var titleLabel = createTitleLabel()
+    // MARK: - UI Elements
+    
+    @UsesAutoLayout private var titleLabel = createTitleLabel()
+    
+    // MARK: - Public Properties
     
     var title: String? {
         didSet {
@@ -29,6 +35,8 @@ final class TrackersCollectionViewHeader: UICollectionReusableView {
         bounds.size.height
     }
     
+    // MARK: - Initialization
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -41,11 +49,15 @@ final class TrackersCollectionViewHeader: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Prepare
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         
         title = nil
     }
+    
+    // MARK: - Setup
     
     private func setupView() {
         layoutMargins = TrackersCollectionContsants.headerEdgeInsets
@@ -66,6 +78,8 @@ final class TrackersCollectionViewHeader: UICollectionReusableView {
 }
 
 extension TrackersCollectionViewHeader {
+    // MARK: - UI Factory Methods
+
     static private func createTitleLabel() -> UILabel {
         let label = UILabel()
 

@@ -78,11 +78,12 @@ extension TrackersDataManager: UICollectionViewDataSource {
         else {
             return UICollectionViewCell()
         }
-        
-        let records = self.dataRepository.getTrackerRecordsBy(tracker.id)
-        let selectedDate = self.dataRepository.selectedDate
 
-        let checked = records.contains { $0.completionDate == selectedDate }
+        let selectedDate = dataRepository.selectedDate
+        
+        let record = TrackerRecord(trackerId: tracker.id, completionDate: selectedDate)
+        let records = dataRepository.getTrackerRecordsBy(tracker.id)
+        let checked = records.contains(record)
         
         let viewModel = TrackersCellViewModel(
             tracker: tracker,
@@ -92,15 +93,22 @@ extension TrackersDataManager: UICollectionViewDataSource {
         ) { [weak self] in
             guard let self else { return }
             
-            let record = TrackerRecord(trackerId: tracker.id, completionDate: selectedDate)
+            let records = dataRepository.getTrackerRecordsBy(tracker.id)
+            let checked = records.contains(record)
 
             if (checked) {
-                self.dataRepository.remove(record)
+                dataRepository.remove(record)
             } else {
-                self.dataRepository.add(record)
+                dataRepository.add(record)
             }
+            
+            let updRecords = dataRepository.getTrackerRecordsBy(tracker.id)
+            let updChecked = updRecords.contains(record)
 
-            collectionView.reloadItems(at: [indexPath])
+            cell.updateCompletion(
+                checked: updChecked,
+                quantityText: TrackersCellViewModel.quantityText(from: updRecords.count)
+            )
         }
         
         cell.configure(viewModel: viewModel)

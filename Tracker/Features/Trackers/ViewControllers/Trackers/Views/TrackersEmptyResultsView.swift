@@ -8,9 +8,9 @@
 import UIKit
 
 final class TrackersEmptyResultsView: UIView {
-    @AutoLayout private var imageView = createImageView()
-    @AutoLayout private var descriptionLabel = createDescriptionLabel()
-    @AutoLayout private var wrapper = createWrapper()
+    @UsesAutoLayout private var imageView = createImageView()
+    @UsesAutoLayout private var descriptionLabel = createDescriptionLabel()
+    @UsesAutoLayout private var wrapper = createWrapper()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

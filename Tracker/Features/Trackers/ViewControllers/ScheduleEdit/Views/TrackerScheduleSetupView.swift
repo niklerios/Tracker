@@ -13,14 +13,14 @@ protocol TrackerScheduleSetupViewDelegate: AnyObject {
 }
 
 final class TrackerScheduleSetupView: UIView {
-    @AutoLayout private var settingsListSection = TrackerSettingsList()
+    @UsesAutoLayout private var settingsListSection = TrackerSettingsList()
     
-    @AutoLayout private var settingsItems = Weekday.allCases.map {
+    @UsesAutoLayout private var settingsItems = Weekday.allCases.map {
         TrackerSettingsItemSwitcher(title: $0.toDayText().capitalized)
     }
 
-    @AutoLayout private var buttonsPanel = TrackerSettingsButtonsPanel()
-    @AutoLayout private var saveButton = TrackerSettingsButton(
+    @UsesAutoLayout private var buttonsPanel = TrackerSettingsButtonsPanel()
+    @UsesAutoLayout private var saveButton = TrackerSettingsButton(
         style: .fill,
         title: "Готово"
     )

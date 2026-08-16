@@ -15,8 +15,8 @@ final class TrackerEditViewController: UIViewController {
     private var trackerTitle = "" {
         didSet { validateSettings() }
     }
-    private var trackerEmoji = EmojisHelper.randomEmoji
-    private var trackerColor = ColorsHelper.randomColor
+    private var trackerEmoji = EmojiConstants.emojis.randomElement()!
+    private var trackerColor = ColorConstants.colors.randomElement()!
 
     private var trackerCategory = TrackersDataMock.defaultCategory {
         didSet { validateSettings() }
