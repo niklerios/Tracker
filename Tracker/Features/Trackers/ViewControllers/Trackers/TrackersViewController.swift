@@ -56,7 +56,7 @@ final class TrackersViewController: UIViewController {
     }
     
     @objc private func didChangeSelectedDate(_ sender: UIDatePicker) {
-        let selectedDate = DateHelper.startOfDay(sender.date)
+        let selectedDate = sender.date.startOfDay
         
         dismiss(animated: false)
         collectionDataManager.setSelectedDate(selectedDate)

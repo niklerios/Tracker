@@ -35,7 +35,7 @@ final class TrackersDataRepository: TrackersDataRepositoryProtocol {
     private var trackerRecordsCache: Dictionary<UUID, Records> = [:]
     
     // Public
-    var selectedDate = DateHelper.startOfDay(Date()) {
+    var selectedDate = Date().startOfDay {
         didSet {
             searchText = ""
         }

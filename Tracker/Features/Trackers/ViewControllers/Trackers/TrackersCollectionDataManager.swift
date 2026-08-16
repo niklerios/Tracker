@@ -89,7 +89,7 @@ extension TrackersDataManager: UICollectionViewDataSource {
             tracker: tracker,
             quantity: records.count,
             checked: checked,
-            disabled: selectedDate > DateHelper.startOfDay(Date())
+            disabled: selectedDate > Date().startOfDay
         ) { [weak self] in
             guard let self else { return }
             

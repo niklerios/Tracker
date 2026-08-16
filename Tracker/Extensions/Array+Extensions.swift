@@ -6,8 +6,8 @@
 //
 
 extension Array {
-    subscript(safe index: Int, default defaultElement: Element? = nil) -> Element? {
-        indices ~= index ? self[index] : defaultElement
+    subscript(safe index: Int) -> Element? {
+        indices ~= index ? self[index] : nil
     }
     
     subscript(safe index: Int, default defaultElement: Element) -> Element {

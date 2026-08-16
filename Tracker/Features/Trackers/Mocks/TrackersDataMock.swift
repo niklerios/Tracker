@@ -79,27 +79,27 @@ struct TrackersDataMock {
         completedTrackers = [
             TrackerRecord(
                 trackerId: everydayTracker.id,
-                completionDate: DateHelper.startOfDay(Date())
+                completionDate: Date().startOfDay
             ),
             TrackerRecord(
                 trackerId: modayTracker.id,
-                completionDate: DateHelper.startOfDay(Date())
+                completionDate: Date().startOfDay
             ),
             TrackerRecord(
                 trackerId: evenDaysTracker.id,
-                completionDate: DateHelper.startOfDay(Date())
+                completionDate: Date().startOfDay
             ),
             TrackerRecord(
                 trackerId: oddDaysTracker.id,
-                completionDate: DateHelper.startOfDay(Date())
+                completionDate: Date().startOfDay
             ),
             TrackerRecord(
                 trackerId: weekendTracker.id,
-                completionDate: DateHelper.startOfDay(Date())
+                completionDate: Date().startOfDay
             ),
             TrackerRecord(
                 trackerId: gymTracker.id,
-                completionDate: DateHelper.startOfDay(Date())
+                completionDate: Date().startOfDay
             ),
         ]
     }
