@@ -17,7 +17,7 @@ struct TrackersCellViewModel {
     let tapHandler: () -> Void
     
     static func quantityText(from quantity: Int) -> String {
-        Date.localizedCountText(forDays: quantity) ?? ""
+        Calendar.localizedCountText(forDays: quantity) ?? ""
     }
 }
 

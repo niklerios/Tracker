@@ -24,9 +24,9 @@ enum Weekday: Int, CaseIterable {
         let index = rawValue - 1
         
         if (short) {
-            return Date.shortWeekdayItems[safe: index]!
+            return Calendar.shortWeekdayItems[safe: index]!
         } else {
-            return Date.weekdayItems[safe: index]!
+            return Calendar.weekdayItems[safe: index]!
         }
     }
     
