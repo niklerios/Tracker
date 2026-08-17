@@ -1,5 +1,5 @@
 //
-//  TrackersCollectionContsants.swift
+//  TrackerListCollectionLayout.swift
 //  Tracker
 //
 //  Created by Nikler on 8/9/26.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct TrackersCollectionContsants {
+enum TrackerListCollectionLayout {
     static let edgeInsets = UIEdgeInsets(top: 12, left: 16, bottom: 16, right: 16)
     static let headerEdgeInsets = UIEdgeInsets(top: 0, left: 28, bottom: 0, right: 28)
     

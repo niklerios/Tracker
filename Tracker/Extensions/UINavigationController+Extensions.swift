@@ -13,37 +13,43 @@ extension UINavigationController {
     convenience init(root: UIViewController, withStyle style: Style = .standard) {
         self.init(rootViewController: root)
         
-        let customTextColor: UIColor = .colorBlack
-        
         if case .custom = style {
-            let appearance = UINavigationBarAppearance()
-            
-            appearance.configureWithOpaqueBackground()
-            appearance.largeTitleTextAttributes = [.foregroundColor: customTextColor]
-            appearance.titleTextAttributes = [.foregroundColor: customTextColor]
-            appearance.shadowColor = .clear
-            
-            navigationBar.prefersLargeTitles = true
-            navigationBar.tintColor = customTextColor
-
-            navigationBar.standardAppearance = appearance
-            navigationBar.scrollEdgeAppearance = appearance
-            navigationBar.compactAppearance = appearance
+            setupCustomStyle()
         }
         
         if case .customModal = style {
-            let appearance = UINavigationBarAppearance()
-            
-            appearance.configureWithOpaqueBackground()
-            appearance.titleTextAttributes = [
-                .foregroundColor: customTextColor,
-                .font: UIFont.systemFont(ofSize: 16, weight: .medium)
-            ]
-            appearance.shadowColor = .clear
-            
-            navigationBar.standardAppearance = appearance
-            navigationBar.scrollEdgeAppearance = appearance
-            navigationBar.compactAppearance = appearance
+            setupCustomModalStyle()
         }
+    }
+    
+    private func setupCustomStyle() {
+        let appearance = UINavigationBarAppearance()
+        
+        appearance.configureWithOpaqueBackground()
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.colorBlack]
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.colorBlack]
+        appearance.shadowColor = .clear
+        
+        navigationBar.prefersLargeTitles = true
+        navigationBar.tintColor = .colorBlack
+
+        navigationBar.standardAppearance = appearance
+        navigationBar.scrollEdgeAppearance = appearance
+        navigationBar.compactAppearance = appearance
+    }
+    
+    private func setupCustomModalStyle() {
+        let appearance = UINavigationBarAppearance()
+        
+        appearance.configureWithOpaqueBackground()
+        appearance.titleTextAttributes = [
+            .foregroundColor: UIColor.colorBlack,
+            .font: UIFont.systemFont(ofSize: 16, weight: .medium)
+        ]
+        appearance.shadowColor = .clear
+        
+        navigationBar.standardAppearance = appearance
+        navigationBar.scrollEdgeAppearance = appearance
+        navigationBar.compactAppearance = appearance
     }
 }

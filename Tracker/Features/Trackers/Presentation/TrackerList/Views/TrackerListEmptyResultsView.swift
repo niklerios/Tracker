@@ -1,5 +1,5 @@
 //
-//  TrackersEmptyResultsView.swift
+//  TrackerListEmptyResultsView.swift
 //  Tracker
 //
 //  Created by Nikler on 6/27/26.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TrackersEmptyResultsView: UIView {
+final class TrackerListEmptyResultsView: UIView {
     @UsesAutoLayout private var imageView = createImageView()
     @UsesAutoLayout private var descriptionLabel = createDescriptionLabel()
     @UsesAutoLayout private var wrapper = createWrapper()
@@ -39,7 +39,7 @@ final class TrackersEmptyResultsView: UIView {
     }
 }
 
-extension TrackersEmptyResultsView {
+extension TrackerListEmptyResultsView {
     private static func createWrapper() -> UIStackView {
         let stackView = UIStackView()
         

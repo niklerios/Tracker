@@ -1,5 +1,5 @@
 //
-//  TrackersViewController.swift
+//  TrackerListViewController.swift
 //  Tracker
 //
 //  Created by Nikler on 6/26/26.
@@ -7,11 +7,11 @@
 
 import UIKit
 
-final class TrackersViewController: UIViewController {
+final class TrackerListViewController: UIViewController {
     private let searchController = UISearchController(searchResultsController: nil)
     
-    private let collectionDataManager = TrackersDataManager()
-    private let collectionViewDelegate = TrackersCollectionViewDelegate()
+    private let collectionDataManager = TrackerListCollectionDataManager()
+    private let collectionViewDelegate = TrackerListCollectionViewDelegate()
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -30,7 +30,7 @@ final class TrackersViewController: UIViewController {
     }
     
     override func loadView() {
-        view = TrackersView(
+        view = TrackerListView(
             collectionDelegate: collectionViewDelegate,
             collectionDataSource: collectionDataManager
         )
@@ -56,7 +56,7 @@ final class TrackersViewController: UIViewController {
     }
     
     @objc private func didChangeSelectedDate(_ sender: UIDatePicker) {
-        let selectedDate = DateHelper.startOfDay(sender.date)
+        let selectedDate = sender.date.startOfDay
         
         dismiss(animated: false)
         collectionDataManager.setSelectedDate(selectedDate)
@@ -103,15 +103,15 @@ final class TrackersViewController: UIViewController {
 
 // MARK: - TrackersCollectionDataManagerDelegate
 
-extension TrackersViewController: TrackersCollectionDataManagerDelegate {
+extension TrackerListViewController: TrackerListCollectionDataManagerDelegate {
     func trackerDidAddToVisibleCategory(section: Int, row: Int, numberOfSections: Int) {
-        (view as? TrackersView)?.insertRowToCollectionView(
+        (view as? TrackerListView)?.insertRowToCollectionView(
             indexPath: IndexPath(row: row, section: section),
             numberOfSections: numberOfSections
         )
     }
     
     func visibleCategoriesDidUpdate() {
-        (view as? TrackersView)?.reloadCollectionViewData()
+        (view as? TrackerListView)?.reloadCollectionViewData()
     }
 }

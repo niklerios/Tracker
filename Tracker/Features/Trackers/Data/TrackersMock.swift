@@ -1,5 +1,5 @@
 //
-//  TrackersDataMock.swift
+//  TrackersMock.swift
 //  Tracker
 //
 //  Created by Nikler on 8/11/26.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct TrackersDataMock {
+struct TrackersMock {
     var categories: [TrackerCategory] = []
     var completedTrackers: Set<TrackerRecord> = []
     
-    static let example = TrackersDataMock()
+    static let example = TrackersMock()
     static let defaultCategory = "Обычные дела"
     
     init() {
@@ -79,27 +79,27 @@ struct TrackersDataMock {
         completedTrackers = [
             TrackerRecord(
                 trackerId: everydayTracker.id,
-                completionDate: DateHelper.startOfDay(Date())
+                completionDate: Date().startOfDay
             ),
             TrackerRecord(
                 trackerId: modayTracker.id,
-                completionDate: DateHelper.startOfDay(Date())
+                completionDate: Date().startOfDay
             ),
             TrackerRecord(
                 trackerId: evenDaysTracker.id,
-                completionDate: DateHelper.startOfDay(Date())
+                completionDate: Date().startOfDay
             ),
             TrackerRecord(
                 trackerId: oddDaysTracker.id,
-                completionDate: DateHelper.startOfDay(Date())
+                completionDate: Date().startOfDay
             ),
             TrackerRecord(
                 trackerId: weekendTracker.id,
-                completionDate: DateHelper.startOfDay(Date())
+                completionDate: Date().startOfDay
             ),
             TrackerRecord(
                 trackerId: gymTracker.id,
-                completionDate: DateHelper.startOfDay(Date())
+                completionDate: Date().startOfDay
             ),
         ]
     }

@@ -16,49 +16,17 @@ enum Weekday: Int, CaseIterable {
     case saturday = 7
     case sunday = 1
     
-    private var defaultDayText: String {
-        switch self {
-        case .monday: "monday"
-        case .tuesday: "tuesday"
-        case .wednesday: "wednesday"
-        case .thursday: "thursday"
-        case .friday: "friday"
-        case .saturday: "saturday"
-        case .sunday: "sunday"
-        }
-    }
-    
-    private var defaultShortDayText: String {
-        switch self {
-        case .monday: "mon"
-        case .tuesday: "tue"
-        case .wednesday: "wed"
-        case .thursday: "thu"
-        case .friday: "fri"
-        case .saturday: "sat"
-        case .sunday: "sun"
-        }
-    }
-    
     init(from date: Date) {
-        // При использовании григорианского календаря гарантируем что rawValue будет в диапазоне [1..7]
-        self.init(rawValue: DateHelper.gregorianCalendar.component(.weekday, from: date))!
+        self.init(rawValue: date.dayNumber)!
     }
     
     func toDayText(short: Bool = false) -> String {
-        let formatter = DateHelper.defaultFormatter
         let index = rawValue - 1
         
         if (short) {
-            return formatter.shortWeekdaySymbols[
-                safe: index,
-                default: self.defaultShortDayText
-            ]
+            return Calendar.shortWeekdayItems[index]
         } else {
-            return formatter.weekdaySymbols[
-                safe: index,
-                default: self.defaultDayText
-            ]
+            return Calendar.weekdayItems[index]
         }
     }
     

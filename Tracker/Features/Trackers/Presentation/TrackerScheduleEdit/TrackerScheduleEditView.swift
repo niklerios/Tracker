@@ -1,5 +1,5 @@
 //
-//  TrackerScheduleSetupView.swift
+//  TrackerScheduleEditView.swift
 //  Tracker
 //
 //  Created by Nikler on 8/14/26.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-protocol TrackerScheduleSetupViewDelegate: AnyObject {
+protocol TrackerScheduleEditViewDelegate: AnyObject {
     func didTapSaveButton()
     func didSwitchToggleWeekday(_ weekday: Weekday, isOn: Bool)
 }
 
-final class TrackerScheduleSetupView: UIView {
+final class TrackerScheduleEditView: UIView {
     @UsesAutoLayout private var settingsListSection = TrackerSettingsList()
     
     @UsesAutoLayout private var settingsItems = Weekday.allCases.map {
@@ -25,9 +25,9 @@ final class TrackerScheduleSetupView: UIView {
         title: "Готово"
     )
     
-    weak var delegate: TrackerScheduleSetupViewDelegate?
+    weak var delegate: TrackerScheduleEditViewDelegate?
     
-    init(delegate: TrackerScheduleSetupViewDelegate, weekdays: [Weekday] = []) {
+    init(delegate: TrackerScheduleEditViewDelegate, weekdays: [Weekday] = []) {
         super.init(frame: .zero)
         
         self.delegate = delegate

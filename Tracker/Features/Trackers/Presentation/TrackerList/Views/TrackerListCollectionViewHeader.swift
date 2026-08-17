@@ -1,5 +1,5 @@
 //
-//  TrackersCollectionViewHeader.swift
+//  TrackerListCollectionViewHeader.swift
 //  Tracker
 //
 //  Created by Nikler on 8/10/26.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TrackersCollectionViewHeader: UICollectionReusableView {
+final class TrackerListCollectionViewHeader: UICollectionReusableView {
     static let identifier = "TrackersCollectionHeader"
     
     // MARK: - Static Properies
@@ -60,7 +60,7 @@ final class TrackersCollectionViewHeader: UICollectionReusableView {
     // MARK: - Setup
     
     private func setupView() {
-        layoutMargins = TrackersCollectionContsants.headerEdgeInsets
+        layoutMargins = TrackerListCollectionLayout.headerEdgeInsets
     }
     
     private func setupSubviews() {
@@ -77,7 +77,7 @@ final class TrackersCollectionViewHeader: UICollectionReusableView {
     }
 }
 
-extension TrackersCollectionViewHeader {
+extension TrackerListCollectionViewHeader {
     // MARK: - UI Factory Methods
 
     static private func createTitleLabel() -> UILabel {

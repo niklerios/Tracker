@@ -1,5 +1,5 @@
 //
-//  TrackersCellViewModel.swift
+//  TrackerListCollectionViewCellModel.swift
 //  Tracker
 //
 //  Created by Nikler on 8/11/26.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct TrackersCellViewModel {
+struct TrackerListCollectionViewCellModel {
     let title: String
     let emoji: Character
     let quantityText: String
@@ -17,11 +17,11 @@ struct TrackersCellViewModel {
     let tapHandler: () -> Void
     
     static func quantityText(from quantity: Int) -> String {
-        DateHelper.getDaysText(days: quantity) ?? ""
+        Calendar.localizedCountText(forDays: quantity) ?? ""
     }
 }
 
-extension TrackersCellViewModel {
+extension TrackerListCollectionViewCellModel {
     init(
         tracker: Tracker,
         quantity: Int,
