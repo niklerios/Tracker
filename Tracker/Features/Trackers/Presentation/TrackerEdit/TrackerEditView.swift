@@ -13,10 +13,14 @@ protocol TrackerEditViewDelegate: AnyObject {
     func didTapSelectCategory()
     func didTapSetupSchedule()
     func titleEditingChanged(_ text: String?)
+    func didSelectEmoji(_ emoji: Character)
+    func didSelectColor(_ color: UIColor)
 }
 
 final class TrackerEditView: UIView {
     // MARK: - UI Elements
+    
+    @UsesAutoLayout private var scrollView = UIScrollView()
     
     @UsesAutoLayout private var buttonsPanel = TrackerSettingsButtonsPanel()
     @UsesAutoLayout private var cancelButton = TrackerSettingsButton(
@@ -41,6 +45,13 @@ final class TrackerEditView: UIView {
         title: "Расписание"
     )
     
+    @UsesAutoLayout private var colorEditView = TrackerColorEditView(
+        title: "Цвет"
+    )
+    @UsesAutoLayout private var emojiEditView = TrackerEmojiEditView(
+        title: "Emoji"
+    )
+    
     // MARK: - Public Properties
     
     var selectCategorySubtitle = "" {
@@ -55,6 +66,18 @@ final class TrackerEditView: UIView {
         }
     }
     
+    var selectedColor: UIColor? {
+        didSet {
+            colorEditView.selectedValue = selectedColor
+        }
+    }
+    
+    var selectedEmoji: Character? {
+        didSet {
+            emojiEditView.selectedValue = selectedEmoji
+        }
+    }
+    
     weak var delegate: TrackerEditViewDelegate?
     
     // MARK: - Initialization
@@ -66,6 +89,7 @@ final class TrackerEditView: UIView {
         
         setupView()
         setupSubviews()
+        setupHandlers()
         setupConstraints()
     }
     
@@ -100,12 +124,18 @@ final class TrackerEditView: UIView {
             saveButton
         ])
         
-        addSubviews([
+        scrollView.addSubviews([
             settingsListMainSection,
             settingsListSecondarySection,
+            emojiEditView,
+            colorEditView,
             buttonsPanel
         ])
         
+        addSubview(scrollView)
+    }
+    
+    private func setupHandlers() {
         cancelButton.didTapHandler = { [weak self] in
             self?.delegate?.didTapCancelButton()
         }
@@ -121,12 +151,31 @@ final class TrackerEditView: UIView {
         settingsItemSetupTitle.editingChangedHandler = { [weak self] in
             self?.delegate?.titleEditingChanged($0)
         }
+        emojiEditView.onValueChange = { [weak self] in
+            self?.delegate?.didSelectEmoji($0)
+        }
+        colorEditView.onValueChange = { [weak self] in
+            self?.delegate?.didSelectColor($0)
+        }
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(
+                equalTo: topAnchor
+            ),
+            scrollView.leadingAnchor.constraint(
+                equalTo: leadingAnchor
+            ),
+            scrollView.trailingAnchor.constraint(
+                equalTo: trailingAnchor
+            ),
+            scrollView.bottomAnchor.constraint(
+                equalTo: bottomAnchor
+            ),
+            
             settingsListMainSection.topAnchor.constraint(
-                equalTo: safeAreaLayoutGuide.topAnchor,
+                equalTo: scrollView.contentLayoutGuide.topAnchor,
                 constant: 24
             ),
             settingsListMainSection.leadingAnchor.constraint(
@@ -149,14 +198,40 @@ final class TrackerEditView: UIView {
                 equalTo: settingsListMainSection.trailingAnchor
             ),
             
-            buttonsPanel.bottomAnchor.constraint(
-                equalTo: safeAreaLayoutGuide.bottomAnchor
+            emojiEditView.topAnchor.constraint(
+                equalTo: settingsListSecondarySection.bottomAnchor,
+                constant: 32
+            ),
+            emojiEditView.leadingAnchor.constraint(
+                equalTo: settingsListMainSection.leadingAnchor
+            ),
+            emojiEditView.trailingAnchor.constraint(
+                equalTo: settingsListMainSection.trailingAnchor
+            ),
+            
+            colorEditView.topAnchor.constraint(
+                equalTo: emojiEditView.bottomAnchor,
+                constant: 32
+            ),
+            colorEditView.leadingAnchor.constraint(
+                equalTo: settingsListMainSection.leadingAnchor
+            ),
+            colorEditView.trailingAnchor.constraint(
+                equalTo: settingsListMainSection.trailingAnchor
+            ),
+            
+            buttonsPanel.topAnchor.constraint(
+                equalTo: colorEditView.bottomAnchor,
+                constant: 40
             ),
             buttonsPanel.leadingAnchor.constraint(
                 equalTo: leadingAnchor
             ),
             buttonsPanel.trailingAnchor.constraint(
                 equalTo: trailingAnchor
+            ),
+            buttonsPanel.bottomAnchor.constraint(
+                equalTo: scrollView.contentLayoutGuide.bottomAnchor
             )
         ])
     }

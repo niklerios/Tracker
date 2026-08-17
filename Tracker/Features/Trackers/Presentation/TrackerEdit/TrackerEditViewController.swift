@@ -10,29 +10,47 @@ import UIKit
 final class TrackerEditViewController: UIViewController {
     typealias DidSaveTrackerHandler = (_ tracker: Tracker, _ category: String) -> Void
     
+    // MARK: - State Properties
+    
     private var trackerId = UUID()
 
-    private var trackerTitle = "" {
-        didSet { validateSettings() }
-    }
-    private var trackerEmoji = EmojiPalette.emojis.randomElement()!
-    private var trackerColor = ColorPalette.colors.randomElement()!
-
-    private var trackerCategory = TrackersMock.defaultCategory {
-        didSet { validateSettings() }
-    }
-    private var trackerSchedule: [Weekday] = [] {
+    private var trackerTitle: String? {
         didSet {
             validateSettings()
-            updateSetupScheduleSubtitle()
         }
     }
+    private var trackerEmoji: Character? {
+        didSet {
+            validateSettings()
+        }
+    }
+    private var trackerColor: UIColor? {
+        didSet {
+            validateSettings()
+        }
+    }
+    private var trackerCategory = TrackersMock.defaultCategory {
+        didSet {
+            validateSettings()
+            setupCategorySubtitle()
+        }
+    }
+    private var trackerSchedule: [Weekday]? {
+        didSet {
+            validateSettings()
+            setupScheduleSubtitle()
+        }
+    }
+    
+    // MARK: - Private Properties
     
     private var didSaveTrackerHandler: DidSaveTrackerHandler?
     
     private var customView: TrackerEditView? {
         view as? TrackerEditView
     }
+    
+    // MARK: - Initialization
     
     init(tracker: Tracker?, onSaveTracker: @escaping DidSaveTrackerHandler) {
         super.init(nibName: nil, bundle: nil)
@@ -52,6 +70,8 @@ final class TrackerEditViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -62,19 +82,37 @@ final class TrackerEditViewController: UIViewController {
         view = TrackerEditView(delegate: self)
     }
     
+    // MARK: - Setup
+    
     private func setupUI() {
         title = "Новая привычка"
         
-        updateSelectCategorySubtitle()
-        updateSetupScheduleSubtitle()
+        setupCategorySubtitle()
+        setupScheduleSubtitle()
+
+        setupSelectedEmoji()
+        setupSelectedColor()
+
         validateSettings()
     }
     
-    private func updateSelectCategorySubtitle() {
+    private func setupSelectedEmoji() {
+        customView?.selectedEmoji = trackerEmoji
+    }
+    
+    private func setupSelectedColor() {
+        customView?.selectedColor = trackerColor
+    }
+    
+    private func setupCategorySubtitle() {
         customView?.selectCategorySubtitle = trackerCategory
     }
     
-    private func updateSetupScheduleSubtitle() {
+    private func setupScheduleSubtitle() {
+        guard let trackerSchedule else {
+            return
+        }
+
         let text = trackerSchedule.count == Weekday.allCases.count
             ? "Каждый день"
             : Weekday.weekdaysListToShortText(trackerSchedule)
@@ -82,20 +120,38 @@ final class TrackerEditViewController: UIViewController {
         customView?.setupScheduleSubtitle = text
     }
     
+    // MARK: - Private methods
+    
     private func validateSettings() {
-        let validations = [
+        guard
+            let trackerTitle,
+            let trackerSchedule,
+            let _ = trackerEmoji,
+            let _ = trackerColor,
             !trackerTitle.isEmpty,
-            !trackerSchedule.isEmpty,
-            !trackerCategory.isEmpty
-        ]
-        let isValid = validations.reduce(true) { $0 && $1 }
+            !trackerSchedule.isEmpty
+        else {
+            customView?.setSaveButtonIsEnabled(false)
+            return
+        }
         
-        customView?.setSaveButtonIsEnabled(isValid)
+        customView?.setSaveButtonIsEnabled(true)
     }
 }
 
+// MARK: - TrackerEditViewDelegate
+
 extension TrackerEditViewController: TrackerEditViewDelegate {
     func didTapSaveButton() {
+        guard
+            let trackerTitle,
+            let trackerColor,
+            let trackerEmoji,
+            let trackerSchedule
+        else {
+            return
+        }
+
         let tracker = Tracker(
             id: trackerId,
             title: trackerTitle,
@@ -104,7 +160,6 @@ extension TrackerEditViewController: TrackerEditViewDelegate {
             schedule: trackerSchedule
         )
 
-        // дожидаюсь окончания анимации закрытия ,чтобы было видно анимацию коллекции при обновлении
         dismiss(animated: true) { [weak self] in
             guard let self else {
                 return
@@ -130,12 +185,23 @@ extension TrackerEditViewController: TrackerEditViewDelegate {
             self?.trackerSchedule = updatedSchedule
         }
 
-        navigationController?.pushViewController(scheduleEditViewController, animated: true)
+        navigationController?.pushViewController(
+            scheduleEditViewController,
+            animated: true
+        )
     }
     
     func titleEditingChanged(_ text: String?) {
         if let text {
             trackerTitle = text
         }
+    }
+    
+    func didSelectEmoji(_ emoji: Character) {
+        trackerEmoji = emoji
+    }
+    
+    func didSelectColor(_ color: UIColor) {
+        trackerColor = color
     }
 }
