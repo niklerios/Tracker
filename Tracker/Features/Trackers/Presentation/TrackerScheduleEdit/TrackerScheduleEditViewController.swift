@@ -1,5 +1,5 @@
 //
-//  TrackerScheduleSetupViewController.swift
+//  TrackerScheduleEditViewController.swift
 //  Tracker
 //
 //  Created by Nikler on 8/14/26.
@@ -7,11 +7,11 @@
 
 import UIKit
 
-final class TrackerScheduleSetupViewController: UIViewController {
+final class TrackerScheduleEditViewController: UIViewController {
     typealias DidSave = (_ schedule: [Weekday]) -> Void
     
-    private var customView: TrackerScheduleSetupView? {
-        view as? TrackerScheduleSetupView
+    private var customView: TrackerScheduleEditView? {
+        view as? TrackerScheduleEditView
     }
     
     private var schedule: [Weekday] = []
@@ -39,7 +39,7 @@ final class TrackerScheduleSetupViewController: UIViewController {
     }
     
     override func loadView() {
-        view = TrackerScheduleSetupView(
+        view = TrackerScheduleEditView(
             delegate: self,
             weekdays: schedule
         )
@@ -51,7 +51,7 @@ final class TrackerScheduleSetupViewController: UIViewController {
     }
 }
 
-extension TrackerScheduleSetupViewController: TrackerScheduleSetupViewDelegate {
+extension TrackerScheduleEditViewController: TrackerScheduleEditViewDelegate {
     func didTapSaveButton() {
         navigationController?.popViewController(animated: true)
         

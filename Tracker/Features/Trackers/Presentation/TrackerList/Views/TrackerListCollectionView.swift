@@ -1,5 +1,5 @@
 //
-//  CollectionView.swift
+//  TrackerListCollectionView.swift
 //  Tracker
 //
 //  Created by Nikler on 6/27/26.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TrackersCollectionView: UICollectionView {    
+final class TrackerListCollectionView: UICollectionView {    
     init() {
         super.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         
@@ -39,13 +39,13 @@ final class TrackersCollectionView: UICollectionView {
     
     private func registerCollectionItems() {
         register(
-            TrackersCollectionViewCell.self,
-            forCellWithReuseIdentifier: TrackersCollectionViewCell.identifier
+            TrackerListCollectionViewCell.self,
+            forCellWithReuseIdentifier: TrackerListCollectionViewCell.identifier
         )
         register(
-            TrackersCollectionViewHeader.self,
+            TrackerListCollectionViewHeader.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: TrackersCollectionViewHeader.identifier
+            withReuseIdentifier: TrackerListCollectionViewHeader.identifier
         )
     }
 }

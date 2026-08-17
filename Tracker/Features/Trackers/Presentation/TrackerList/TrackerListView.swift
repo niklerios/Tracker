@@ -1,5 +1,5 @@
 //
-//  TrackersView.swift
+//  TrackerListView.swift
 //  Tracker
 //
 //  Created by Nikler on 6/26/26.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-final class TrackersView: UIView {
-    @UsesAutoLayout private var emptyResultsView = TrackersEmptyResultsView()
-    @UsesAutoLayout private var collectionView = TrackersCollectionView()
+final class TrackerListView: UIView {
+    @UsesAutoLayout private var emptyResultsView = TrackerListEmptyResultsView()
+    @UsesAutoLayout private var collectionView = TrackerListCollectionView()
     
     private var collectionIsEmpty: Bool {
         collectionView.numberOfSections == 0

@@ -1,5 +1,5 @@
 //
-//  TrackersCollectionViewDelegate.swift
+//  TrackerListCollectionViewDelegate.swift
 //  Tracker
 //
 //  Created by Nikler on 8/11/26.
@@ -7,13 +7,13 @@
 
 import UIKit
 
-final class TrackersCollectionViewDelegate: NSObject, UICollectionViewDelegateFlowLayout {
+final class TrackerListCollectionViewDelegate: NSObject, UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAt section: Int
     ) -> UIEdgeInsets {
-        TrackersCollectionContsants.edgeInsets
+        TrackerListCollectionLayout.edgeInsets
     }
     
     func collectionView(
@@ -21,7 +21,7 @@ final class TrackersCollectionViewDelegate: NSObject, UICollectionViewDelegateFl
         layout collectionViewLayout: UICollectionViewLayout,
         minimumInteritemSpacingForSectionAt section: Int
     ) -> CGFloat {
-        TrackersCollectionContsants.cellSpacing
+        TrackerListCollectionLayout.cellSpacing
     }
     
     func collectionView(
@@ -29,7 +29,7 @@ final class TrackersCollectionViewDelegate: NSObject, UICollectionViewDelegateFl
         layout collectionViewLayout: UICollectionViewLayout,
         minimumLineSpacingForSectionAt section: Int
     ) -> CGFloat {
-        TrackersCollectionContsants.cellSpacing
+        TrackerListCollectionLayout.cellSpacing
     }
     
     func collectionView(
@@ -38,12 +38,12 @@ final class TrackersCollectionViewDelegate: NSObject, UICollectionViewDelegateFl
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         let fullWidth = collectionView.bounds.width
-        let widthWithoutPaddings = fullWidth - TrackersCollectionContsants.paddingWidth
-        let cellWidth = widthWithoutPaddings / CGFloat(TrackersCollectionContsants.cellsCount)
+        let widthWithoutPaddings = fullWidth - TrackerListCollectionLayout.paddingWidth
+        let cellWidth = widthWithoutPaddings / CGFloat(TrackerListCollectionLayout.cellsCount)
         
         return CGSize(
             width: cellWidth,
-            height: TrackersCollectionContsants.cellHeight
+            height: TrackerListCollectionLayout.cellHeight
         )
     }
     
@@ -52,7 +52,7 @@ final class TrackersCollectionViewDelegate: NSObject, UICollectionViewDelegateFl
         layout collectionViewLayout: UICollectionViewLayout,
         referenceSizeForHeaderInSection section: Int
     ) -> CGSize {
-        let exampleHeader = TrackersCollectionViewHeader.example
+        let exampleHeader = TrackerListCollectionViewHeader.example
         let width = collectionView.bounds.width
 
         // Вычисляю высоту ровно 1 раз ,тк высота хедера всегда одинакова (текст всегда в 1 строку)

@@ -1,5 +1,5 @@
 //
-//  TrackersDataManager.swift
+//  TrackerListCollectionDataManager.swift
 //  Tracker
 //
 //  Created by Nikler on 8/11/26.
@@ -7,19 +7,19 @@
 
 import UIKit
 
-protocol TrackersCollectionDataManagerDelegate: AnyObject {
+protocol TrackerListCollectionDataManagerDelegate: AnyObject {
     func visibleCategoriesDidUpdate()
     func trackerDidAddToVisibleCategory(section: Int, row: Int, numberOfSections: Int)
 }
 
-final class TrackersDataManager: NSObject {
-    private let dataRepository = TrackersDataRepository.shared
+final class TrackerListCollectionDataManager: NSObject {
+    private let dataRepository = TrackersRepository.shared
     
     private var categories: [TrackerCategory] {
         dataRepository.visibleCategories
     }
     
-    weak var delegate: TrackersCollectionDataManagerDelegate?
+    weak var delegate: TrackerListCollectionDataManagerDelegate?
     
     func setSelectedDate(_ date: Date) {
         updateSelectedDate(date)
@@ -52,7 +52,7 @@ final class TrackersDataManager: NSObject {
 
 // MARK: - UICollectionViewDataSource
 
-extension TrackersDataManager: UICollectionViewDataSource {
+extension TrackerListCollectionDataManager: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         categories.count
     }
@@ -85,7 +85,7 @@ extension TrackersDataManager: UICollectionViewDataSource {
         let records = dataRepository.getTrackerRecordsBy(tracker.id)
         let checked = records.contains(record)
         
-        let viewModel = TrackersCellViewModel(
+        let viewModel = TrackerListCollectionViewCellModel(
             tracker: tracker,
             quantity: records.count,
             checked: checked,
@@ -107,7 +107,9 @@ extension TrackersDataManager: UICollectionViewDataSource {
 
             cell.updateCompletion(
                 checked: updChecked,
-                quantityText: TrackersCellViewModel.quantityText(from: updRecords.count)
+                quantityText: TrackerListCollectionViewCellModel.quantityText(
+                    from: updRecords.count
+                )
             )
         }
         
@@ -135,22 +137,22 @@ extension TrackersDataManager: UICollectionViewDataSource {
     private func dequeHeaderFrom(
         _ collectionView: UICollectionView,
         indexPath: IndexPath
-    ) -> TrackersCollectionViewHeader? {
+    ) -> TrackerListCollectionViewHeader? {
         collectionView.dequeueReusableSupplementaryView(
             ofKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: TrackersCollectionViewHeader.identifier,
+            withReuseIdentifier: TrackerListCollectionViewHeader.identifier,
             for: indexPath
-        ) as? TrackersCollectionViewHeader
+        ) as? TrackerListCollectionViewHeader
     }
     
     private func dequeCellFrom(
         _ collectionView: UICollectionView,
         indexPath: IndexPath
-    ) -> TrackersCollectionViewCell? {
+    ) -> TrackerListCollectionViewCell? {
         collectionView.dequeueReusableCell(
-            withReuseIdentifier: TrackersCollectionViewCell.identifier,
+            withReuseIdentifier: TrackerListCollectionViewCell.identifier,
             for: indexPath
-        ) as? TrackersCollectionViewCell
+        ) as? TrackerListCollectionViewCell
     }
     
     private func getTrackerBy(_ indexPath: IndexPath) -> Tracker? {
@@ -160,7 +162,7 @@ extension TrackersDataManager: UICollectionViewDataSource {
 
 // MARK: - UISearchResultsUpdating
 
-extension TrackersDataManager: UISearchResultsUpdating {
+extension TrackerListCollectionDataManager: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard
             let searchText = searchController.searchBar.text,

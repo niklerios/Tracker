@@ -17,7 +17,7 @@ final class TabBarViewController: UITabBarController {
     
     private func setupViewControllers() {
         viewControllers = [
-            UINavigationController(root: TrackersViewController(), withStyle: .custom),
+            UINavigationController(root: TrackerListViewController(), withStyle: .custom),
             StatisticsViewController(),
         ]
     }

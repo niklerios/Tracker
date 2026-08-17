@@ -1,5 +1,5 @@
 //
-//  TrackersDataMock.swift
+//  TrackersMock.swift
 //  Tracker
 //
 //  Created by Nikler on 8/11/26.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct TrackersDataMock {
+struct TrackersMock {
     var categories: [TrackerCategory] = []
     var completedTrackers: Set<TrackerRecord> = []
     
-    static let example = TrackersDataMock()
+    static let example = TrackersMock()
     static let defaultCategory = "Обычные дела"
     
     init() {

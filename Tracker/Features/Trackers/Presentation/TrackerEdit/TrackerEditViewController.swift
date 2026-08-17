@@ -15,10 +15,10 @@ final class TrackerEditViewController: UIViewController {
     private var trackerTitle = "" {
         didSet { validateSettings() }
     }
-    private var trackerEmoji = EmojiConstants.emojis.randomElement()!
-    private var trackerColor = ColorConstants.colors.randomElement()!
+    private var trackerEmoji = EmojiPalette.emojis.randomElement()!
+    private var trackerColor = ColorPalette.colors.randomElement()!
 
-    private var trackerCategory = TrackersDataMock.defaultCategory {
+    private var trackerCategory = TrackersMock.defaultCategory {
         didSet { validateSettings() }
     }
     private var trackerSchedule: [Weekday] = [] {
@@ -124,13 +124,13 @@ extension TrackerEditViewController: TrackerEditViewDelegate {
     }
     
     func didTapSetupSchedule() {
-        let scheduleSetupViewController = TrackerScheduleSetupViewController(
+        let scheduleEditViewController = TrackerScheduleEditViewController(
             schedule: trackerSchedule
         ) { [weak self] updatedSchedule in
             self?.trackerSchedule = updatedSchedule
         }
 
-        navigationController?.pushViewController(scheduleSetupViewController, animated: true)
+        navigationController?.pushViewController(scheduleEditViewController, animated: true)
     }
     
     func titleEditingChanged(_ text: String?) {

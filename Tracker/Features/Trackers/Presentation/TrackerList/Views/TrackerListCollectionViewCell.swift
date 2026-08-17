@@ -1,5 +1,5 @@
 //
-//  TrackersCollectionViewCell.swift
+//  TrackerListCollectionViewCell.swift
 //  Tracker
 //
 //  Created by Nikler on 8/9/26.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TrackersCollectionViewCell: UICollectionViewCell {
+final class TrackerListCollectionViewCell: UICollectionViewCell {
     static let identifier = "TrackersCollectionCell"
     
     // MARK: - UI Elements
@@ -52,7 +52,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Public Methods
     
-    func configure(viewModel vm: TrackersCellViewModel) {
+    func configure(viewModel vm: TrackerListCollectionViewCellModel) {
         setupTrackerCardView(viewModel: vm)
         setupQuantityManagmentView(viewModel: vm)
     }
@@ -66,13 +66,13 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Private methods
     
-    private func setupTrackerCardView(viewModel vm: TrackersCellViewModel) {
+    private func setupTrackerCardView(viewModel vm: TrackerListCollectionViewCellModel) {
         trackerCardTitleView.text = vm.title
         trackerCardEmojiView.text = String(vm.emoji)
         trackerCardView.backgroundColor = vm.color
     }
     
-    private func setupQuantityManagmentView(viewModel vm: TrackersCellViewModel) {
+    private func setupQuantityManagmentView(viewModel vm: TrackerListCollectionViewCellModel) {
         quantityManagementTitleView.text = vm.quantityText
 
         quantityManagementButton.tintColor = vm.color
@@ -187,7 +187,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Extension
 
-extension TrackersCollectionViewCell {
+extension TrackerListCollectionViewCell {
     // MARK: - UI Factory Methods
 
     static func createWrapper() -> UIStackView {

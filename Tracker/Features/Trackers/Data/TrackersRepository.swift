@@ -1,5 +1,5 @@
 //
-//  TrackersDataRepository.swift
+//  TrackersRepository.swift
 //  Tracker
 //
 //  Created by Nikler on 8/11/26.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol TrackersDataRepositoryProtocol {
+protocol TrackersRepositoryProtocol {
     typealias Categories = [TrackerCategory]
     typealias Records = Set<TrackerRecord>
 
@@ -23,8 +23,8 @@ protocol TrackersDataRepositoryProtocol {
     func remove(_ record: TrackerRecord)
 }
 
-final class TrackersDataRepository: TrackersDataRepositoryProtocol {
-    static let shared = TrackersDataRepository(withMock: true)
+final class TrackersRepository: TrackersRepositoryProtocol {
+    static let shared = TrackersRepository(withMock: true)
     
     // Source data
     private var categories: Categories
@@ -46,13 +46,13 @@ final class TrackersDataRepository: TrackersDataRepositoryProtocol {
     
     private init(withMock: Bool = false) {
         let defaultCategory = TrackerCategory(
-            title: TrackersDataMock.defaultCategory,
+            title: TrackersMock.defaultCategory,
             trackers: []
         )
         
         if (withMock) {
-            self.categories = TrackersDataMock.example.categories
-            self.completedTrackers = TrackersDataMock.example.completedTrackers
+            self.categories = TrackersMock.example.categories
+            self.completedTrackers = TrackersMock.example.completedTrackers
         } else {
             self.categories = [defaultCategory]
             self.completedTrackers = []
