@@ -19,13 +19,15 @@ final class TrackerScheduleEditViewController: UIViewController {
     
     private var didSaveHadler: DidSave?
     
-    init(schedule: [Weekday], onSave: @escaping DidSave) {
+    init(schedule: [Weekday]?, onSave: @escaping DidSave) {
         super.init(nibName: nil, bundle: nil)
         
         didSaveHadler = onSave
         
-        self.schedule = schedule
-        self.scheduleTemplate = Set(schedule)
+        if let schedule {
+            self.schedule = schedule
+            self.scheduleTemplate = Set(schedule)
+        }
     }
     
     required init?(coder: NSCoder) {
